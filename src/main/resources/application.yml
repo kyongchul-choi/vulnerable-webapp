@@ -12,9 +12,18 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
+        use_sql_comments: true
+  sql:
+    init:
+      mode: always
 
-server:
-  port: 8080
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+    com.vulnapp: DEBUG
+    sql: DEBUG

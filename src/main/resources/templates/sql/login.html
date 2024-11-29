@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Injection Test - Login</title>
+    <style>
+        .container {
+            margin: 20px;
+            padding: 20px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+        .message {
+            margin: 10px 0;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="message">
+        <div th:if="${message}" class="success">
+            <p th:text="${message}"></p>
+        </div>
+        <div th:if="${error}" class="error">
+            <p th:text="${error}"></p>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>취약한 로그인 (SQL Injection 가능)</h2>
+        <form action="/vulnerable/sql/unsafe-login" method="post">
+            <div>
+                <label for="username1">Username:</label>
+                <input type="text" id="username1" name="username">
+            </div>
+            <div>
+                <label for="password1">Password:</label>
+                <input type="password" id="password1" name="password">
+            </div>
+            <button type="submit">Unsafe Login</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h2>안전한 로그인 (JPA 사용)</h2>
+        <form action="/vulnerable/sql/safe-login" method="post">
+            <div>
+                <label for="username2">Username:</label>
+                <input type="text" id="username2" name="username">
+            </div>
+            <div>
+                <label for="password2">Password:</label>
+                <input type="password" id="password2" name="password">
+            </div>
+            <button type="submit">Safe Login</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h3>테스트 계정:</h3>
+        <ul>
+            <li>Username: admin / Password: admin123</li>
+            <li>Username: user1 / Password: user123</li>
+        </ul>
+
+        <h3>SQL Injection 테스트:</h3>
+        <p>Try: admin' --</p>
+        <p>Or: admin' OR '1'='1</p>
+    </div>
+</div>
+</body>
+</html>
