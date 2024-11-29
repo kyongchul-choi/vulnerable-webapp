@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+<h2>Login Form</h2>
+<form action="/login" method="post">
+    Username: <input type="text" name="username"><br>
+    Password: <input type="password" name="password"><br>
+    <input type="hidden" name="redirect_url" value="http://evil.com">
+    <input type="submit" value="Login">
+</form>
+
+<h3>Test Links:</h3>
+<ul>
+    <li><a href="/vulnerable/redirect/unsafe-redirect?redirect_url=https://www.google.com">Unsafe Redirect to Google</a></li>
+    <li><a href="/vulnerable/redirect/unsafe-redirect?redirect_url=http://evil.com">Unsafe Redirect to Evil.com</a></li>
+    <li><a href="/vulnerable/redirect/safe-redirect?redirect_url=https://www.google.com">Safe Redirect (Will go to error)</a></li>
+    <li><a href="/vulnerable/redirect/safe-redirect?redirect_url=/dashboard">Safe Redirect to Dashboard</a></li>
+</ul>
+</body>
+</html>
