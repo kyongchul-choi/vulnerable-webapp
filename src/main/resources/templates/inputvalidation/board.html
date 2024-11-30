@@ -1,0 +1,83 @@
+<!-- src/main/resources/templates/inputvalidation/board.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .container { margin: 20px; padding: 20px; }
+        .board-section { margin-bottom: 30px; }
+        .button-section { margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="board-section">
+        <h2>게시글 상세</h2>
+        <div>
+            <input type="text" id="title" th:value="${board.title}">
+        </div>
+        <div>
+            <textarea id="content" th:text="${board.content}"></textarea>
+        </div>
+        <div>
+            <span>작성자: </span>
+            <span th:text="${board.username}"></span>
+        </div>
+    </div>
+
+    <div class="button-section">
+        <h3>취약한 수정 (권한 검증 취약)</h3>
+        <button onclick="unsafeUpdate()">취약한 수정</button>
+
+        <h3>안전한 수정 (세션 기반 권한 검증)</h3>
+        <button onclick="safeUpdate()">안전한 수정</button>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    function unsafeUpdate() {
+        const data = {
+            title: $('#title').val(),
+            content: $('#content').val(),
+            userId: 3,  // 취약점: 임의의 사용자 ID 전송
+            role: 'USER'  // 취약점: 임의의 권한 전송
+        };
+
+        $.ajax({
+            url: '/vulnerable/inputvalidation/unsafe/board/' + [[${board.id}]],
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                alert(response);
+            },
+            error: function(xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+
+    function safeUpdate() {
+        const data = {
+            title: $('#title').val(),
+            content: $('#content').val()
+        };
+
+        $.ajax({
+            url: '/vulnerable/inputvalidation/safe/board/' + [[${board.id}]],
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                alert(response);
+            },
+            error: function(xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+</script>
+</body>
+</html>
