@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>설정 파일 관리</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .container { margin: 20px; padding: 20px; }
+        .test-section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; }
+        .response-area { background-color: #f5f5f5; padding: 10px; margin-top: 10px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>설정 파일 취약점 테스트</h2>
+
+    <div class="test-section">
+        <h3>1. 디렉토리 탐색 테스트</h3>
+        <input type="text" id="filePath" value="database.properties" placeholder="파일 경로 입력">
+        <button onclick="testPathTraversal()">파일 접근 테스트</button>
+        <div id="path-response" class="response-area"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>2. 백업 파일 접근 테스트</h3>
+        <input type="text" id="backupDate" value="20231129" placeholder="백업 날짜 입력 (YYYYMMDD)">
+        <button onclick="testBackupAccess()">백업 파일 접근</button>
+        <div id="backup-response" class="response-area"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>3. 암호화 키 테스트</h3>
+        <input type="text" id="fileName" value="secure.conf" placeholder="파일명">
+        <input type="text" id="encKey" placeholder="암호화 키">
+        <button onclick="testEncrypted()">암호화 파일 접근</button>
+        <div id="enc-response" class="response-area"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>4. 권한 우회 테스트</h3>
+        <select id="configFile">
+            <option value="database.properties">database.properties</option>
+            <option value="api-keys.properties">api-keys.properties</option>
+            <option value="secure.conf">secure.conf</option>
+        </select>
+        <input type="text" id="userRole" value="USER" placeholder="사용자 권한">
+        <button onclick="testRoleBypass()">설정 파일 접근</button>
+        <div id="role-response" class="response-area"></div>
+    </div>
+</div>
+
+<script>
+    function testPathTraversal() {
+        $.ajax({
+            url: '/vulnerable/config/unsafe/file',
+            type: 'GET',
+            data: { path: $('#filePath').val() },
+            success: function(response) {
+                $('#path-response').text(JSON.stringify(response, null, 2));
+            },
+            error: function(xhr) {
+                $('#path-response').html('<span class="error">' + xhr.responseText + '</span>');
+            }
+        });
+    }
+
+    function testBackupAccess() {
+        $.ajax({
+            url: '/vulnerable/config/unsafe/backup/' + $('#backupDate').val(),
+            type: 'GET',
+            success: function(response) {
+                $('#backup-response').text(JSON.stringify(response, null, 2));
+            },
+            error: function(xhr) {
+                $('#backup-response').html('<span class="error">' + xhr.responseText + '</span>');
+            }
+        });
+    }
+
+    function testEncrypted() {
+        $.ajax({
+            url: '/vulnerable/config/unsafe/encrypted/' + $('#fileName').val(),
+            type: 'GET',
+            data: { encKey: $('#encKey').val() },
+            success: function(response) {
+                $('#enc-response').text(JSON.stringify(response, null, 2));
+            },
+            error: function(xhr) {
+                $('#enc-response').html('<span class="error">' + xhr.responseText + '</span>');
+            }
+        });
+    }
+
+    function testRoleBypass() {
+        $.ajax({
+            url: '/vulnerable/config/unsafe/' + $('#configFile').val(),
+            type: 'GET',
+            headers: {
+                'X-User-Role': $('#userRole').val()
+            },
+            success: function(response) {
+                $('#role-response').text(JSON.stringify(response, null, 2));
+            },
+            error: function(xhr) {
+                $('#role-response').html('<span class="error">' + xhr.responseText + '</span>');
+            }
+        });
+    }
+</script>
+</body>
+</html>
