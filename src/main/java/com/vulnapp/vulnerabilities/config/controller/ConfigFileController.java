@@ -20,6 +20,7 @@ public class ConfigFileController {
     @GetMapping("/unsafe/file")
     @ResponseBody
     public ConfigFileDTO unsafeGetConfigByPath(@RequestParam String path) {
+        System.out.println("Controller - Received path: " + path); // 컨트롤러 진입 확인용
         return configFileService.unsafeGetConfigByPath(path);
     }
 

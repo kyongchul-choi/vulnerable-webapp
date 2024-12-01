@@ -50,6 +50,7 @@ public class ConfigFileService {
                 throw new RuntimeException("파일을 찾을 수 없습니다: " + fullPath);
             }
         } catch (Exception e) {
+            // 안전하지 않은 예외처리 : 에러메세지에 파일 전체경로 노출
             e.printStackTrace();
             throw new RuntimeException("파일 접근 오류: " + e.getMessage());
         }
