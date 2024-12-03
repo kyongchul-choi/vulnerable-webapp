@@ -1,14 +1,15 @@
 // src/main/java/com/vulnapp/config/SecurityConfig.java
 package com.vulnapp.config;
 
-import com.vulnapp.config.filter.RedirectSecurityFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+
+
+
 
 /**
  * Spring Security 설정 클래스
@@ -26,7 +27,7 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll()  // 모든 요청 허용
                 );
 
-        http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
+                http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         return http.build();
     }
