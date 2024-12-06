@@ -1,4 +1,8 @@
 spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
   h2:
     console:
       enabled: true
@@ -27,3 +31,4 @@ logging:
     org.hibernate.type.descriptor.sql: TRACE
     com.vulnapp: DEBUG
     sql: DEBUG
+    org.springframework.web: DEBUG

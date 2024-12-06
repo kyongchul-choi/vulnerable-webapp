@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>JWT 취약점 - 로그인</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>JWT 취약점 실습 - 로그인</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <strong>테스트 계정</strong><br>
+                        일반 사용자: user/user<br>
+                        관리자: admin/admin
+                    </div>
+                    <form id="loginForm" onsubmit="handleLogin(event)">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">사용자명</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">로그인</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function handleLogin(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        fetch('/vulnerable/jwt/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Login response:', data); // 디버깅용
+            if (data.token) {
+                document.cookie = `token=${data.token}; path=/`;
+                window.location.href = '/vulnerable/jwt/board';
+            } else {
+                alert('토큰을 받지 못했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Login error:', error);
+            alert('로그인 실패');
+        });
+    }
+</script>
+</body>
+</html>

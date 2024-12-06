@@ -36,10 +36,11 @@ CREATE TABLE IF NOT EXISTS users (
    role VARCHAR(20)
 );
 
-INSERT INTO users (username, password, email, role) VALUES
-('admin', 'admin123', 'admin@example.com', 'ADMIN'),
-('user1', 'user123', 'user1@example.com', 'USER'),
-('test', 'test123', 'test@example.com', 'USER');
+INSERT INTO users (username, password, email, role)
+VALUES
+('admin', 'admin123', 'admin@example.com', 'ROLE_ADMIN'),
+('user1', 'user123', 'user1@example.com', 'ROLE_USER'),
+('test', 'test123', 'test@example.com', 'ROLE_USER');
 
 -- config_files 테이블 생성
 CREATE TABLE IF NOT EXISTS config_files (
@@ -75,3 +76,26 @@ VALUES ('api-keys.bak', '# Old API Keys\naws.old.key=AKIA9876543210ZYXWVU\npayme
 -- secure.conf의 이전 백업 파일 (암호화 키 노출)
 INSERT INTO config_files (file_name, content, file_path, is_secret, is_encrypted, encryption_key, backup_date)
 VALUES ('secure.conf.bak','# Previous Security Configuration    # Production encryption key api.gateway.url=https://api.example.com # Note: Update this key every month','/config/backup/secure.conf.bak',true, false, null, '20231127');
+
+-- JWT 관련 테이블 생성
+CREATE TABLE IF NOT EXISTS jwt_users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS jwt_boards (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    content TEXT,
+    writer_id BIGINT,
+    created_at TIMESTAMP,
+    FOREIGN KEY (writer_id) REFERENCES jwt_users(id)
+);
+
+-- JWT 사용자 데이터 추가
+INSERT INTO jwt_users (username, password, role)
+VALUES
+('admin', 'admin', 'ROLE_ADMIN'),
+('user', 'user', 'ROLE_USER');

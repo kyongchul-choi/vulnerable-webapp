@@ -1,0 +1,160 @@
+<!-- rsa-padding.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>RSA 패딩 취약점 학습</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .result-block {
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .vulnerable {
+            background-color: #ffe6e6;
+        }
+        .secure {
+            background-color: #e6ffe6;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+        }
+        .processing-time {
+            color: #6c757d;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>RSA 패딩 취약점 학습</h2>
+
+    <div class="alert alert-info mt-4">
+        <h4>학습 목표</h4>
+        <p>1. RSA PKCS1v1.5 패딩과 OAEP 패딩의 차이점 이해</p>
+        <p>2. 패딩 오라클 공격의 원리 학습</p>
+        <p>3. 안전한 에러 처리 방식의 중요성 인식</p>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">메시지 암호화 테스트</h5>
+            <div class="form-group">
+                <label for="message">메시지 입력:</label>
+                <input type="text" class="form-control" id="message"
+                       placeholder="암호화할 메시지를 입력하세요">
+            </div>
+            <button onclick="processMessage()" class="btn btn-primary mt-3">
+                암호화 실행
+            </button>
+        </div>
+    </div>
+
+    <div id="results" class="mt-4">
+        <!-- 결과가 여기에 동적으로 추가됨 -->
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">패딩 오라클 공격 시뮬레이션</h5>
+            <div class="form-group">
+                <label for="tampered-message">변조된 암호문:</label>
+                <input type="text" class="form-control" id="tampered-message"
+                       placeholder="변조할 암호문을 입력하세요">
+            </div>
+            <div class="mt-3">
+                <button onclick="testPKCS1Padding()" class="btn btn-danger">
+                    PKCS1v1.5 복호화 시도
+                </button>
+                <button onclick="testOAEPPadding()" class="btn btn-success">
+                    OAEP 복호화 시도
+                </button>
+            </div>
+            <div id="padding-test-result" class="mt-3">
+                <!-- 패딩 테스트 결과가 여기에 표시됨 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function processMessage() {
+        const message = document.getElementById('message').value;
+
+        fetch('/vulnerable/crypto/rsa/process', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `message=${encodeURIComponent(message)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <div class="result-block vulnerable">
+                    <h5>PKCS1v1.5 패딩 (취약)</h5>
+                    <p>암호문: ${data.encryptedPKCS1}</p>
+                    <p>복호화 결과/에러: ${data.pkcs1DecryptionError}</p>
+                    <p class="processing-time">처리 시간: ${data.pkcs1ProcessingTime}ns</p>
+                </div>
+                <div class="result-block secure">
+                    <h5>OAEP 패딩 (안전)</h5>
+                    <p>암호문: ${data.encryptedOAEP}</p>
+                    <p>복호화 결과/에러: ${data.oaepDecryptionError}</p>
+                    <p class="processing-time">처리 시간: ${data.oaepProcessingTime}ns</p>
+                </div>
+            `;
+        });
+    }
+
+    function testPKCS1Padding() {
+        const tamperedMessage = document.getElementById('tampered-message').value;
+
+        fetch('/vulnerable/crypto/rsa/decrypt-pkcs1', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `encryptedMessage=${encodeURIComponent(tamperedMessage)}`
+        })
+        .then(response => response.text())
+        .then(result => {
+            const resultDiv = document.getElementById('padding-test-result');
+            resultDiv.innerHTML = `
+                <div class="alert alert-danger">
+                    <h6>PKCS1v1.5 복호화 결과:</h6>
+                    <p>${result}</p>
+                    <small>* 상세한 에러 메시지는 공격자에게 유용한 정보를 제공할 수 있습니다.</small>
+                </div>
+            `;
+        });
+    }
+
+    function testOAEPPadding() {
+        const tamperedMessage = document.getElementById('tampered-message').value;
+
+        fetch('/vulnerable/crypto/rsa/decrypt-oaep', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `encryptedMessage=${encodeURIComponent(tamperedMessage)}`
+        })
+        .then(response => response.text())
+        .then(result => {
+            const resultDiv = document.getElementById('padding-test-result');
+            resultDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <h6>OAEP 복호화 결과:</h6>
+                    <p>${result}</p>
+                    <small>* 일관된 에러 메시지로 공격자에게 유용한 정보를 제공하지 않습니다.</small>
+                </div>
+            `;
+        });
+    }
+</script>
+</body>
+</html>

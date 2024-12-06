@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ECB 모드 취약점 학습</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .block {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .block.selected {
+            background-color: #e3f2fd;
+            border-color: #2196f3;
+        }
+        .transaction-container {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>ECB 모드 취약점 학습</h2>
+
+    <div class="alert alert-info">
+        <h4>학습 목표</h4>
+        <p>ECB 모드에서 동일한 평문은 동일한 암호문으로 암호화되는 패턴을 확인합니다.</p>
+    </div>
+
+    <div class="transaction-container">
+        <h3>거래 기록 분석</h3>
+        <div th:each="tx : ${transactions}" class="mb-3">
+            <h5 th:text="${tx.transactionType + ' - ' + tx.amount + ' - ' + tx.userName}"></h5>
+            <div class="encrypted-blocks">
+                <span class="block" th:text="${tx.encryptedDataECB}"></span>
+            </div>
+            <small class="text-muted" th:text="'원본: ' + ${tx.originalData}"></small>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h3>실습</h3>
+        <div class="mb-3">
+            <label>거래 유형:</label>
+            <input type="text" id="txType" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>금액:</label>
+            <input type="text" id="amount" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>사용자:</label>
+            <input type="text" id="userName" class="form-control">
+        </div>
+        <button onclick="analyzePattern()" class="btn btn-primary">거래 생성</button>
+    </div>
+
+    <div id="result" class="mt-4"></div>
+</div>
+
+<script>
+    function analyzePattern() {
+        const txType = document.getElementById('txType').value;
+        const amount = document.getElementById('amount').value;
+        const userName = document.getElementById('userName').value;
+
+        fetch('/vulnerable/crypto/ecb/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `transactionType=${txType}&amount=${amount}&userName=${userName}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <h5>생성된 거래:</h5>
+                    <p>암호화: ${data.encryptedDataECB}</p>
+                    <p>원본: ${data.originalData}</p>
+                </div>
+            `;
+        });
+    }
+</script>
+</body>
+</html>
