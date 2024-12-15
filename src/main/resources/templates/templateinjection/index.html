@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Template Injection</title>
+    <style>
+        .container { width: 80%; margin: 0 auto; padding: 20px; }
+        .title { text-align: center; margin-bottom: 20px; }
+        .section { margin-top: 30px; }
+        .result { border: 1px solid #ccc; padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">
+        <h1>코드 삽입 (Template Injection)</h1>
+        <p>코드 삽입 공격은 공격자가 애플리케이션에 임의의 코드를 삽입하여, 원래의 의도된 동작을 변경하거나 악의적인 코드를 실행하는 공격입니다.</p>
+    </div>
+
+    <div class="section">
+        <h2>입력 폼</h2>
+        <form action="/vulnerable/template-injection/process" method="get">
+            <label for="input">입력값:</label>
+            <input type="text" id="input" name="input" placeholder="코드를 입력하세요">
+            <button type="submit">제출</button>
+        </form>
+    </div>
+    <div class="section">
+        <h2>결과</h2>
+        <div>
+            <h3>취약한 처리 (Unsafe)</h3>
+            <!-- 값이 없을 경우 "값이 없습니다"를 기본 출력 -->
+            <div class="result" th:text="${unsafeInput ?: '값이 없습니다'}"></div>
+        </div>
+        <div>
+            <h3>안전한 처리 (Safe)</h3>
+            <!-- 값이 없을 경우 "값이 없습니다"를 기본 출력 -->
+            <div class="result" th:text="${safeInput ?: '값이 없습니다'}"></div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
