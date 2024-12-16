@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DOM XSS Example with Search Form</title>
+    <script>
+        window.onload = function () {
+            // 검색 폼 처리
+            const searchForm = document.getElementById('searchForm');
+            searchForm.onsubmit = function (event) {
+                event.preventDefault(); // 기본 폼 제출 동작 중단
+                const searchInput = document.getElementById('searchInput').value; // 입력값 가져오기
+                const searchResults = document.getElementById('searchResults');
+
+                // 직접 스크립트 실행
+                try {
+                    (new Function(searchInput))();  // 문자열 삽입
+                } catch (error) {
+                    console.error("Script execution error:", error);
+                }
+
+                // 검색 결과 DOM에 추가 (innerHTML 사용)
+                searchResults.innerHTML = `<p>검색 결과: ${searchInput}</p>`;
+            };
+        };
+    </script>
+</head>
+<body>
+<h1>DOM XSS Example</h1>
+
+<h2>제품 검색</h2>
+<form id="searchForm">
+    <label for="searchInput">검색어:</label>
+    <input type="text" id="searchInput" name="searchInput" required>
+    <button type="submit">검색</button>
+</form>
+
+<div id="searchResults"></div>
+</body>
+</html>

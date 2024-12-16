@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-
-
-
-
+// import com.vulnapp.filter.CustomHtmlEscapeFilter;
 
 /**
  * Spring Security 설정 클래스
@@ -26,7 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").permitAll()  // 모든 요청 허용
                 );
-
+        // xss필터 .addFilterBefore(new CustomHtmlEscapeFilter(), UsernamePasswordAuthenticationFilter.class)
                 http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         return http.build();

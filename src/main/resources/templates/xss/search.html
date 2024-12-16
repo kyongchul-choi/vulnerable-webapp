@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>검색 페이지 - 클라이언트 필터링</title>
+    <script>
+        /**
+         * 클라이언트 측에서 입력값 필터링
+         * @param {string} input - 사용자 입력값
+         * @returns 필터링된 값
+         */
+        function sanitizeInput(input) {
+            return input
+                .replace(/</g, "&lt;") // '<'를 '&lt;'로 변환
+                .replace(/>/g, "&gt;"); // '>'를 '&gt;'로 변환
+        }
+
+        /**
+         * 폼 제출 시 필터링 적용
+         */
+        function processForm(event) {
+            event.preventDefault(); // 기본 동작 방지
+            const queryInput = document.getElementById("query");
+            queryInput.value = sanitizeInput(queryInput.value); // 입력값 필터링
+            event.target.submit(); // 필터링된 값을 서버로 전송
+        }
+    </script>
+</head>
+<body>
+<h1>검색 페이지 - 클라이언트 필터링</h1>
+<form action="/xss/search" method="get" onsubmit="processForm(event)">
+    <label for="query">검색어:</label>
+    <input type="text" id="query" name="query" placeholder="검색어를 입력하세요">
+    <button type="submit">검색</button>
+</form>
+
+<!-- 검색 결과 출력 -->
+<div>
+    <h2>검색 결과:</h2>
+    <!-- 서버에서 전달받은 값을 그대로 출력 -->
+    <p th:utext="${query}">검색 결과가 없습니다.</p> <!-- 취약점: 서버 검증 없음 -->
+</div>
+</body>
+</html>

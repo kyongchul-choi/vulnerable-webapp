@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stored XSS Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        form {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%; /* 가로 길이를 폼 전체에 맞춤 */
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            height: 150px; /* 댓글 입력 칸의 높이 */
+            resize: none;  /* 크기 조절 비활성화 */
+        }
+
+        button {
+            display: block;
+            margin: 10px auto; /* 중앙에 배치 */
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            width: 80%;
+            margin: 20px auto;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<h1>Stored XSS Example</h1>
+
+<!-- 댓글 입력 폼 -->
+<form action="/xss/stored" method="post">
+    <label for="username">이름:</label>
+    <input type="text" id="username" name="username" placeholder="이름을 입력하세요" required>
+
+    <label for="content">댓글:</label>
+    <textarea id="content" name="content" placeholder="댓글을 입력하세요" required></textarea>
+
+    <button type="submit">댓글 작성</button>
+</form>
+
+<!-- 저장된 댓글 목록 -->
+<h2>댓글 목록</h2>
+<ul>
+    <li th:each="comment : ${comments}">
+        <strong th:text="${comment.username}"></strong>:
+        <span th:utext="${comment.content}"></span> <!-- 취약: HTML 태그 실행 -->
+    </li>
+</ul>
+</body>
+</html>
