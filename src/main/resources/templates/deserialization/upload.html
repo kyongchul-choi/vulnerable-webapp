@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>신뢰할 수 없는 데이터의 역직렬화</title>
+</head>
+<body>
+<h1>신뢰할 수 없는 데이터의 역직렬화</h1>
+<p>시스템 설정 파일(.ser)을 업로드하여 처리 결과를 확인하세요.</p>
+
+<form action="/vulnerable/deserialization/upload" method="post" enctype="multipart/form-data">
+    <label for="fileInput">설정 파일 선택:</label>
+    <input type="file" id="fileInput" name="file" accept=".ser" required>
+    <button type="submit">업로드</button>
+</form>
+</body>
+</html>

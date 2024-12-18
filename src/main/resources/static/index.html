@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        /* 내비게이션 스타일 */
+        .navbar {
+            background-color: #0056b3;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .navbar a, .dropdown .dropbtn {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover, .dropdown:hover .dropbtn {
+            background-color: #007BFF;
+            border-radius: 4px;
+        }
+
+        /* 드롭다운 스타일 */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            color: #0056b3;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* 헤더 */
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #0056b3;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 회사 마크 및 링크 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+
+<h1>소프트웨어 보안 약점 49개 실습</h1>
+<p>아래의 표에서 각 항목을 클릭하면 해당 취약점 실습 페이지로 이동합니다.</p>
+
+<table>
+    <tr>
+        <th>입력 데이터 검증 및 표현 (17개)</th>
+        <th>보안 기능 (16개)</th>
+        <th>시간 및 상태 (2개)</th>
+        <th>에러 처리 (3개)</th>
+        <th>코드 오류 (5개)</th>
+        <th>캡슐화 (4개)</th>
+        <th>API 오용 (2개)</th>
+    </tr>
+    <tr>
+        <td><a href="http://localhost:8080/vulnerable/sql/login">SQL 삽입</a></td>
+        <td><a href="#">적절한 인증 없는 중요 기능 허용</a></td>
+        <td><a href="#">경쟁 조건: 검사 시점과 사용 시점 (TOCTOU)</a></td>
+        <td><a href="#">오류 메시지 정보 누출</a></td>
+        <td><a href="#">Null Pointer 역참조</a></td>
+        <td><a href="#">잘못된 세세한 정보의 데이터 공개</a></td>
+        <td><a href="#">DNS Lookup에 의존한 보안 결정</a></td>
+    </tr>
+    <tr>
+        <td><a href="#">코드 삽입</a></td>
+        <td><a href="#">부적절한 인가</a></td>
+        <td><a href="#">종료되지 않은 반복 재귀함수</a></td>
+        <td><a href="#">오류 상황 대응 부재</a></td>
+        <td><a href="#">부적절한 자원 해제</a></td>
+        <td><a href="#">제거되지 않고 남은 디버그 코드</a></td>
+        <td><a href="#">취약한 API 사용</a></td>
+    </tr>
+    <tr>
+        <td><a href="#">경로 조작 및 자원 삽입</a></td>
+        <td><a href="#">중요한 자원에 대한 잘못된 권한 설정</a></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td><a href="#">해제된 자원 사용</a></td>
+        <td><a href="#">Public 배열로부터 반환된 Private 배열</a></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">크로스사이트 스크립트</a></td>
+        <td><a href="#">취약한 비밀번호 사용</a></td>
+        <td><a href="#">초기화되지 않은 변수 사용</a></td>
+        <td><a href="#">Private 배열의 Public 데이터 할당</a></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">운영체제 명령어 삽입</a></td>
+        <td><a href="#">취약한 암호화 알고리즘 사용</a></td>
+        <td></td>
+        <td></td>
+        <td><a href="#">신뢰할 수 없는 데이터의 역직렬화</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">위험한 형식 파일 업로드</a></td>
+        <td><a href="#">암호화되지 않은 중요정보</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">신뢰되지 않은 URL주소 자동접속</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">부적절한 XML 외부개체 참조</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">XML 삽입</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">LDAP 삽입</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">크로스사이트 요청 위조</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">서버사이드 요청 위조</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">HTTP 응답 분할</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">정수형 오버플로우</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">보안기능 결정에 사용되는 부적절한 입력값</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">메모리 버퍼 오버플로우</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="#">포맷 스트링 삽입</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<footer style="text-align: center; margin-top: 20px; font-size: 14px; color: #555;">
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>
