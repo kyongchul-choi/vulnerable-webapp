@@ -1,22 +1,138 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Template Injection</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코드 삽입 (Template Injection)</title>
     <style>
-        .container { width: 80%; margin: 0 auto; padding: 20px; }
-        .title { text-align: center; margin-bottom: 20px; }
-        .section { margin-top: 30px; }
-        .result { border: 1px solid #ccc; padding: 10px; margin-top: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .form-section, .result-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+
+        .result {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .description-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+            text-align: center;
+        }
+
+        .description-box p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="title">
-        <h1>코드 삽입 (Template Injection)</h1>
-        <p>코드 삽입 공격은 공격자가 애플리케이션에 임의의 코드를 삽입하여, 원래의 의도된 동작을 변경하거나 악의적인 코드를 실행하는 공격입니다.</p>
-    </div>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
 
-    <div class="section">
+<!-- 취약점 이름 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">코드 삽입 (Template Injection)</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button style="background-color: #0056b3; color: #ffffff; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer;">
+            돌아가기
+        </button>
+    </a>
+</div>
+
+
+<!-- 설명 -->
+<div class="description-box">
+    <p><strong>설명:</strong> 코드 삽입 공격은 애플리케이션에 임의의 코드를 삽입하여 의도된 동작을 변경하거나 악의적인 코드를 실행할 수 있는 취약점입니다.</p>
+    <p><strong>대책:</strong> 사용자 입력을 처리할 때 반드시 검증하고, 템플릿 엔진에서 제공하는 안전한 API를 사용하세요.</p>
+</div>
+
+<!-- 본문 내용 -->
+<div class="container">
+    <!-- 입력 폼 -->
+    <div class="form-section">
         <h2>입력 폼</h2>
         <form action="/vulnerable/template-injection/process" method="get">
             <label for="input">입력값:</label>
@@ -24,21 +140,24 @@
             <button type="submit">제출</button>
         </form>
     </div>
-    <div class="section">
+
+    <!-- 결과 -->
+    <div class="result-section">
         <h2>결과</h2>
         <div>
             <h3>취약한 처리 (Unsafe)</h3>
-            <!-- 값이 없을 경우 "값이 없습니다"를 기본 출력 -->
             <div class="result" th:text="${unsafeInput ?: '값이 없습니다'}"></div>
         </div>
         <div>
             <h3>안전한 처리 (Safe)</h3>
-            <!-- 값이 없을 경우 "값이 없습니다"를 기본 출력 -->
             <div class="result" th:text="${safeInput ?: '값이 없습니다'}"></div>
         </div>
     </div>
-
-
 </div>
+
+<!-- 하단 저작권 -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
 </body>
 </html>

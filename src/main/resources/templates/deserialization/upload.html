@@ -1,17 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>신뢰할 수 없는 데이터의 역직렬화</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .description-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+            text-align: center;
+        }
+
+        .description-box p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-<h1>신뢰할 수 없는 데이터의 역직렬화</h1>
-<p>시스템 설정 파일(.ser)을 업로드하여 처리 결과를 확인하세요.</p>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
 
-<form action="/vulnerable/deserialization/upload" method="post" enctype="multipart/form-data">
-    <label for="fileInput">설정 파일 선택:</label>
-    <input type="file" id="fileInput" name="file" accept=".ser" required>
-    <button type="submit">업로드</button>
-</form>
+<!-- 취약점 이름 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">신뢰할 수 없는 데이터의 역직렬화</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button style="background-color: #0056b3; color: #ffffff; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer;">
+            돌아가기
+        </button>
+    </a>
+</div>
+
+
+<!-- 설명 -->
+<div class="description-box">
+    <p><strong>설명:</strong> 역직렬화 취약점은 신뢰할 수 없는 데이터를 역직렬화하는 과정에서 악의적인 코드를 실행할 수 있는 위험을 초래합니다.</p>
+    <p><strong>대책:</strong> 허용된 클래스만 역직렬화하거나 데이터를 안전한 형식(JSON, XML)으로 변환하여 사용하세요.</p>
+</div>
+
+<!-- 본문 내용 -->
+<div class="container">
+    <div class="form-section">
+        <h2>시스템 설정 파일 업로드</h2>
+        <form action="/vulnerable/deserialization/upload" method="post" enctype="multipart/form-data">
+            <label for="fileInput">설정 파일 선택:</label>
+            <input type="file" id="fileInput" name="file" accept=".ser" required>
+            <button type="submit">업로드</button>
+        </form>
+    </div>
+</div>
+
+<!-- 하단 저작권 -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
 </body>
 </html>
