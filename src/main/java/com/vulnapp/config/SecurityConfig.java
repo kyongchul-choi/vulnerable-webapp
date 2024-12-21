@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").permitAll()  // 모든 요청 허용
+
                 );
         // xss필터 .addFilterBefore(new CustomHtmlEscapeFilter(), UsernamePasswordAuthenticationFilter.class)
                 http.headers(headers -> headers.frameOptions(frame -> frame.disable()));

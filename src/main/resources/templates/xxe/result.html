@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Parsing Result</title>
+    <style>
+        /* Standard Design Styles */
+        /* Refer to previously agreed design template */
+    </style>
+</head>
+<body>
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <a href="/vulnerable/xxe/" class="back-button">돌아가기</a>
+</div>
+
+<h1>XML Parsing Result</h1>
+
+<div class="container">
+    <div class="result-section">
+        <h2>결과:</h2>
+        <pre th:text="${parsedContent}">결과가 여기에 표시됩니다.</pre>
+    </div>
+</div>
+
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

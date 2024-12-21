@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신뢰되지 않은 URL주소 자동접속</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        .description-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px; /* 로그인 페이지와 동일한 크기 */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+            text-align: center;
+        }
+
+        .description-box p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 취약점 이름 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">신뢰되지 않은 URL주소 자동접속</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button style="background-color: #0056b3; color: #ffffff; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer;">
+            돌아가기
+        </button>
+    </a>
+</div>
+
+<!-- Description Section -->
+<div class="container">
+    <p><strong>설명:</strong> 신뢰되지 않은 URL주소 자동접속은 공격자가 URL을 조작하여 사용자를 신뢰할 수 없는 사이트로 리다이렉트 시킬 수 있는 취약점입니다.</p>
+    <p><strong>대책:</strong> URL 파라미터 값을 신뢰하지 않고, 사전 정의된 URL만 리다이렉트 허용하도록 구성하세요.</p>
+</div>
+
+<!-- Company Information -->
+<div class="container content-section">
+    <h2>OpenText 소개</h2>
+    <p>OpenText는 세계적인 정보 관리 솔루션 제공 기업으로, 기업들이 데이터와 콘텐츠를 효율적으로 관리하고 활용할 수 있도록 지원합니다.
+        <br>
+        <a href="/vulnerable/openredirect/redirect?url=https://www.opentext.com" target="_blank">
+            자세한 정보는 여기를 클릭하세요.
+        </a></p>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

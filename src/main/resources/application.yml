@@ -1,4 +1,5 @@
 spring:
+
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -24,6 +25,17 @@ spring:
   sql:
     init:
       mode: always
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  resources:
+    static-locations: classpath:/static/,classpath:/public/,file:uploads/
+
+fileupload:
+  directory: ${user.dir}/uploads
+
 
 logging:
   level:
@@ -32,3 +44,6 @@ logging:
     com.vulnapp: DEBUG
     sql: DEBUG
     org.springframework.web: DEBUG
+    org.springframework.web.servlet.resource: DEBUG
+    org.thymeleaf: DEBUG
+

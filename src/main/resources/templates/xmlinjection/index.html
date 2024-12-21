@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML 삽입</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        .description-box p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        code {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">XML 삽입</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 설명과 해결책 -->
+<div class="description-box">
+    <p><strong>설명:</strong> XPath Injection은 XML 데이터를 조회하는 과정에서 사용자 입력값을 직접 사용하여 XPath 쿼리를 생성할 때 발생하는 취약점입니다. 공격자는 악의적인 입력값을 사용해 인증 우회, 데이터 탈취 등을 수행할 수 있습니다.</p>
+    <p><strong>대책:</strong> 사용자 입력값을 철저히 검증하고, XPath 쿼리 생성 시 파라미터화된 방식(parameterized queries)을 사용해야 합니다.</p>
+</div>
+
+<!-- 샘플 코드 -->
+<div class="code-box">
+    <h2>샘플 코드</h2>
+    <h3>취약 코드:</h3>
+    <p>아래 코드는 사용자 입력값을 검증하지 않고 XPath 쿼리에 직접 삽입합니다. 공격자는 아래와 같은 입력값으로 인증을 우회할 수 있습니다:</p>
+    <code>
+        // 공격 패턴 예시:
+        username: "admin' or '1'='1"
+        password: "password"
+    </code>
+    <code>
+        String expression = "/users/user[username='" + username + "' and password='" + password + "']";</p>
+        XPathFactory xPathFactory = XPathFactory.newInstance();</p>
+        XPath xPath = xPathFactory.newXPath();</p>
+        Node node = (Node) xPath.evaluate(expression, xmlDocument, XPathConstants.NODE);</p>
+        </p>
+        if (node != null) {</p>
+        // 인증 성공</p>
+        } else {</p>
+        // 인증 실패</p>
+        }
+    </code>
+    <h3>안전 코드:</h3>
+    <p>아래 코드는 입력값을 철저히 검증하고 안전하게 XPath 쿼리를 생성합니다:</p>
+    <code>
+        XPathExpression expression = xPath.compile("/users/user[username=$username and password=$password]");</p>
+        Map<String, String> params = new HashMap&lt;&gt;();</p>
+        params.put("username", escapeXml(username)); // 사용자 입력값 이스케이프 처리</p>
+        params.put("password", escapeXml(password));</p>
+        </p>
+        Node node = (Node) expression.evaluate(xmlDocument, XPathConstants.NODE, params);</p>
+        </p>
+        if (node != null) {</p>
+        // 인증 성공</p>
+        } else {</p>
+        // 인증 실패</p>
+        }</p>
+    </code>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

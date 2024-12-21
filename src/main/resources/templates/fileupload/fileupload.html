@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection Test - Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        .description-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px; /* 로그인 페이지와 동일한 크기 */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+            text-align: center;
+        }
+
+        .description-box p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 취약점 이름 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">위험한 형식 파일업로드</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button style="background-color: #0056b3; color: #ffffff; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer;">
+            돌아가기
+        </button>
+    </a>
+</div>
+
+<!-- Description Section -->
+<div class="container">
+    <p><strong>설명:</strong> 위험한 형식 파일 업로드는 공격자가 악성 파일을 서버에 업로드하여 시스템의 보안을 침해하거나 원치 않는 동작을 실행할 수 있는 취약점입니다.</p>
+    <p><strong>대책:</strong>
+    <ul>
+        <li>파일 형식 검증: 업로드된 파일의 확장자를 확인하고, 허용된 파일 형식만 처리하세요.</li>
+        <li>파일 이름 검증 및 재지정: 업로드된 파일의 이름을 재지정하거나 사용자 제공 이름을 사용하지 않도록 하세요.</li>
+        <li>파일 실행 방지: 업로드된 파일이 실행되지 않도록 웹 서버에서 적절한 디렉터리에 저장하세요.</li>
+        <li>파일 크기 제한: 업로드 가능한 파일 크기를 제한하여 대규모 공격을 방지하세요.</li>
+        <li>안티 바이러스 스캔: 업로드된 파일을 바이러스 스캔하여 악성 파일 여부를 확인하세요.</li>
+    </ul>
+    </p>
+</div>
+
+<!-- Form Section -->
+<div class="container">
+    <div class="form-section">
+        <form action="/vulnerable/fileupload/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+</div>
+
+<!-- Messages Section -->
+<div class="container">
+    <div class="message" th:if="${message}" th:text="${message}"></div>
+    <div class="message error" th:if="${error}" th:text="${error}"></div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>
