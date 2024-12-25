@@ -99,3 +99,9 @@ INSERT INTO jwt_users (username, password, role)
 VALUES
 ('admin', 'admin', 'ROLE_ADMIN'),
 ('user', 'user', 'ROLE_USER');
+
+-- CSRF 게시글 테이블 초기 데이터
+INSERT INTO csrf_posts (title, content, created_date, author) VALUES
+('첫 번째 게시글', '이 게시글은 초기 데이터로 삽입되었습니다.', NOW(), '관리자'),
+('두 번째 게시글', '초기 데이터를 테스트하기 위한 게시글입니다.', NOW(), '테스터'),
+('공격 게시글', '<script>alert("XSS 공격!")</script>', NOW(), NULL);

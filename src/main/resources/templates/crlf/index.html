@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP 응답 분할 취약점</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .attack-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        .code-example {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004494;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">HTTP 응답 분할 취약점</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<div class="container">
+    <div class="description-box">
+        <h2>취약점 설명</h2>
+        <p>HTTP 응답 분할(HTTP Response Splitting) 취약점은 HTTP 응답 헤더에 개행문자(\r\n)를 삽입하여 하나의 HTTP 응답을 여러 개의 응답으로 분할할 수 있는 취약점입니다.</p>
+        <p>이 취약점은 사용자의 입력값이 HTTP 응답 헤더에 직접 포함될 때 발생할 수 있으며, 이를 통해 다음과 같은 공격이 가능합니다:</p>
+        <ul>
+            <li>웹 캐시 포이즈닝</li>
+            <li>XSS(Cross-Site Scripting)</li>
+            <li>세션 하이재킹</li>
+            <li>브라우저 캐시 조작</li>
+        </ul>
+    </div>
+
+    <div class="attack-box">
+        <h2>공격 테스트</h2>
+        <p>아래 입력창에 URL을 입력하면 해당 URL로 리다이렉션됩니다. CRLF 문자(%0d%0a)를 사용하여 HTTP 응답을 조작해보세요.</p>
+
+        <div class="code-example">
+            공격 예시:
+            https://example.com%0d%0aContent-Length:%200%0d%0a%0d%0a&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+        </div>
+
+        <form action="/vulnerable/crlf/redirect" method="get">
+            <input type="text" name="url" placeholder="리다이렉트할 URL을 입력하세요">
+            <button type="submit">리다이렉트</button>
+        </form>
+    </div>
+
+    <div class="description-box">
+        <h2>대응 방안</h2>
+        <p>HTTP 응답 분할 취약점을 방지하기 위해서는 다음과 같은 보안 조치가 필요합니다:</p>
+        <ul>
+            <li>사용자 입력값에서 CR(\r), LF(\n) 문자 필터링</li>
+            <li>URL 인코딩된 문자 디코딩 후 검증</li>
+            <li>적절한 HTTP 응답 헤더 검증</li>
+            <li>보안 헤더 사용 (X-Frame-Options, Content-Security-Policy 등)</li>
+        </ul>
+    </div>
+</div>
+
+<footer style="text-align: center; margin-top: 30px; color: #666;">
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

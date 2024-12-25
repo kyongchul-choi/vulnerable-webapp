@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 상세</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 30px;
+        }
+
+        .post-details {
+            margin-bottom: 20px;
+        }
+
+        .post-details label {
+            font-weight: bold;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .post-content {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f4f6f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            line-height: 1.6;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .button:hover {
+            background-color: #007bff;
+        }
+
+        .back-button {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            background-color: #0056b3;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #007bff;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>게시글 상세</h1>
+
+    <!-- 게시글 정보 -->
+    <div class="post-details">
+        <p>
+            <label>제목:</label>
+            <span th:text="${post.title != null ? post.title : '제목 없음'}">제목 표시</span>
+        </p>
+        <p>
+            <label>작성일:</label>
+            <span th:text="${post.createdDate != null ? #temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:ss') : '날짜 없음'}">2024-12-21</span>
+        </p>
+        <p>
+            <label>작성자:</label>
+            <span th:text="${post.author != null ? post.author : '익명'}">익명</span>
+        </p>
+    </div>
+
+    <!-- 게시글 내용 -->
+    <div class="post-content" th:utext="${post.content != null ? post.content : '내용 없음'}">
+        게시글 내용 표시
+    </div>
+
+    <!-- 버튼 -->
+    <div class="button-container">
+        <a href="/vulnerable/csrf/list" class="back-button">목록으로 돌아가기</a>
+    </div>
+
+    <!-- 오류 메시지 (필요 시 표시) -->
+    <div class="error-message" th:if="${post == null}">
+        게시글 정보를 불러올 수 없습니다.
+    </div>
+</div>
+</body>
+</html>

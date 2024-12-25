@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정수형 오버플로우</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">정수형 오버플로우</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 설명과 해결책 -->
+<div class="description-box">
+    <p><strong>설명:</strong> 정수형 오버플로우는 숫자의 범위를 초과하는 값을 처리하려고 할 때 발생합니다. 이는 예상치 못한 동작을 유발할 수 있으며, 공격자가 이를 악용하여 애플리케이션을 손상시킬 수 있습니다.</p>
+    <p><strong>대책:</strong> 값의 범위를 검증하거나 안전한 데이터 타입(Long, BigInteger 등)을 사용하여 정수형 오버플로우를 방지하세요.</p>
+</div>
+
+<!-- 샘플 코드 -->
+<div class="code-box">
+    <h2>샘플 코드</h2>
+    <h3>취약 코드:</h3>
+    <code>
+        public void addValues() {</p>
+        int maxValue = Integer.MAX_VALUE; // 최대값 2,147,483,647</p>
+        int result = maxValue + 1;        // 오버플로우 발생</p>
+        System.out.println("결과: " + result); // 예상치 못한 값 출력</p>
+        }</p>
+    </code>
+    <h3>안전 코드:</h3>
+    <code>
+        public void addValuesSafely() {</p>
+        long maxValue = Integer.MAX_VALUE;</p>
+        long result = maxValue + 1; // 안전하게 처리</p>
+        if (result > Integer.MAX_VALUE) {</p>
+        throw new ArithmeticException("오버플로우 발생!");</p>
+        }</p>
+        System.out.println("결과: " + result);</p>
+        }
+    </code>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

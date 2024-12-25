@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSRF 취약점 게시글 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #f4f6f8;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">CSRF 취약점 - 게시글 목록</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 설명과 해결책 -->
+<div class="description-box">
+    <p><strong>설명:</strong> CSRF(Cross-Site Request Forgery)는 사용자의 의도와 상관없이 인증된 사용자의 자격 증명을 악용하여 요청을 수행하게 만드는 취약점입니다.</p>
+    <p><strong>대책:</strong> CSRF 토큰을 활용한 요청 검증, 참조 헤더 검증, 쿠키의 SameSite 속성을 설정하여 이 취약점을 방지할 수 있습니다.</p>
+</div>
+
+<!-- 게시글 목록 테이블 -->
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>제목</th>
+            <th>내용</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 게시글 데이터를 반복 출력 -->
+        <tr th:each="post, stat : ${posts}">
+            <td th:text="${stat.count}"></td>
+            <td>
+                <a th:href="'/vulnerable/csrf/view/' + ${post.id}" th:text="${post.title}"></a>
+            </td>
+            <td th:text="${post.content != null && post.content.length() > 50 ? post.content.substring(0, 50) + '...' : post.content != null ? post.content : '내용 없음'}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 새 게시글 작성 버튼 -->
+    <div class="button-container">
+        <a href="/vulnerable/csrf/create">
+            <button>새 게시글 작성</button>
+        </a>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

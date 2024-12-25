@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR 관리자 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        label {
+            font-weight: bold;
+            margin: 10px 0;
+            display: block;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>HR 관리자 페이지</h1>
+    <form action="/vulnerable/ssrf/hr/login" method="POST">
+        <label for="username">사용자 이름:</label>
+        <input type="text" id="username" name="username" placeholder="관리자 아이디">
+
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" placeholder="비밀번호">
+
+        <button type="submit">로그인</button>
+    </form>
+</div>
+</body>
+</html>
