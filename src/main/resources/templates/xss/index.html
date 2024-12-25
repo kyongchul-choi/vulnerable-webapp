@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>취약한 ZIP 파일 처리</title>
+    <title>XSS 공격 유형</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,38 +22,25 @@
             border-radius: 8px;
         }
 
-        h1, h2 {
+        h1 {
             text-align: center;
             color: #0056b3;
         }
 
-        form {
-            margin: 30px auto;
-            text-align: center;
-        }
-
-        label {
+        a {
             display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        input[type="file"] {
-            margin-bottom: 20px;
-        }
-
-        button {
-            padding: 10px 15px;
-            background-color: #0056b3;
+            margin: 10px 0;
+            padding: 10px;
             color: #ffffff;
-            border: none;
+            background-color: #0056b3;
+            text-decoration: none;
+            font-size: 18px;
+            text-align: center;
             border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
             transition: background-color 0.3s ease;
         }
 
-        button:hover {
+        a:hover {
             background-color: #007bff;
         }
 
@@ -66,15 +53,9 @@
             background-color: #f4f6f8;
         }
 
-        .header {
-            display: flex;
-            align-items: center;
-            margin: 20px;
-        }
-
-        .header img {
-            height: 50px;
-            margin-right: 15px;
+        .description-box p {
+            margin: 10px 0;
+            font-size: 16px;
         }
 
         footer {
@@ -82,6 +63,28 @@
             margin-top: 30px;
             font-size: 14px;
             color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+            background-color: #ffffff; /* 흰색 배경 명시 */
+        }
+
+        .header a {
+    text-decoration: none; /* 밑줄 제거 */
+    background-color: transparent; /* 배경색 제거 */
+    padding: 0; /* 여백 제거 */
+    border: none; /* 경계 제거 */
+    display: flex; /* 로고와 텍스트 정렬 */
+    align-items: center;
+}
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+            display: block;
         }
     </style>
 </head>
@@ -94,27 +97,18 @@
     <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
 </div>
 
-<!-- 제목과 돌아가기 버튼 -->
-<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-    <h1 style="margin: 0;">취약한 API 사용</h1>
-    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
-        <button>돌아가기</button>
-    </a>
-</div>
-
-<!-- 설명 -->
-<div class="description-box">
-    <p><strong>설명 :</strong> Apache Commons Compress의 CVE-2021-35515 취약점악용</p>
-    <p>ZIP 파일 내부에 악의적인 파일 경로를 포함시켜 시스템 파일변조를 시도합니다.</p>
-</div>
-
-<!-- 업로드 폼 -->
+<!-- 제목과 설명 -->
 <div class="container">
-    <h2>ZIP 파일 업로드</h2>
-    <form action="/vulnerable/api/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" id="file">
-        <button type="submit">업로드</button>
-    </form>
+    <h1>XSS 공격 유형</h1>
+    <div class="description-box">
+        <p><strong>설명:</strong> XSS(크로스사이트 스크립팅) 공격은 악의적인 스크립트를 웹 애플리케이션에 삽입하여 사용자 데이터를 탈취하거나 시스템 동작을 변경하는 취약점입니다.</p>
+        <p><strong>대책:</strong> 모든 사용자 입력값을 적절히 검증하고 출력 시 HTML 이스케이프 처리를 적용하여 악의적인 코드를 실행되지 않도록 해야 합니다.</p>
+    </div>
+    <p>아래의 링크를 클릭하여 각 XSS 유형별 페이지를 탐색하세요:</p>
+
+    <a href="/xss/search">Reflected XSS</a>
+    <a href="/xss/stored">Stored XSS</a>
+    <a href="/xss/dom">DOM XSS</a>
 </div>
 
 <!-- Footer Section -->

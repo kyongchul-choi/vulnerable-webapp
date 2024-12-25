@@ -1,8 +1,94 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>검색 페이지 - 클라이언트 필터링</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        form {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+
+        .description-box, .result-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
     <script>
         /**
          * 클라이언트 측에서 입력값 필터링
@@ -27,18 +113,40 @@
     </script>
 </head>
 <body>
-<h1>검색 페이지 - 클라이언트 필터링</h1>
-<form action="/xss/search" method="get" onsubmit="processForm(event)">
-    <label for="query">검색어:</label>
-    <input type="text" id="query" name="query" placeholder="검색어를 입력하세요">
-    <button type="submit">검색</button>
-</form>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
 
-<!-- 검색 결과 출력 -->
-<div>
+<!-- 제목과 설명 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">Reflected XSS 실습</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 검색 폼 -->
+<div class="container">
+    <h2>검색</h2>
+    <form action="/xss/search" method="get" onsubmit="processForm(event)">
+        <input type="text" id="query" name="query" placeholder="검색어를 입력하세요">
+        <button type="submit">검색</button>
+    </form>
+</div>
+
+<!-- 검색 결과 -->
+<div class="result-box">
     <h2>검색 결과:</h2>
-    <!-- 서버에서 전달받은 값을 그대로 출력 -->
     <p th:utext="${query}">검색 결과가 없습니다.</p> <!-- 취약점: 서버 검증 없음 -->
 </div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
 </body>
 </html>
