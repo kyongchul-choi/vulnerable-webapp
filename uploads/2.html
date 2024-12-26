@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Shell</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h3>Web Shell</h3>
+<input type="text" id="cmd" style="width: 300px" placeholder="Enter command" value="dir c:\">
+<button onclick="executeCommand()">Execute</button>
+<pre id="output" style="background-color: #f0f0f0; padding: 10px; margin-top: 10px;"></pre>
+
+<script>
+    async function executeCommand() {
+        const cmd = document.getElementById('cmd').value;
+        const output = document.getElementById('output');
+
+        try {
+            const response = await fetch('/api/execute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ command: cmd })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.text();
+            output.innerHTML = result.replace(/\n/g, '<br>');  // 줄바꿈 처리
+
+        } catch (error) {
+            output.textContent = 'Error: ' + error.message;
+        }
+    }
+
+    // Enter 키 입력 처리
+    document.getElementById('cmd').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            executeCommand();
+        }
+    });
+</script>
+</body>
+</html>

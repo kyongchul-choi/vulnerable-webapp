@@ -3,4 +3,3 @@ git add .
 git commit -m "Add Open Redirect vulnerability example"
 git push origin main
 
-

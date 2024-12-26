@@ -135,54 +135,55 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/sql/login">SQL 삽입</a></td>
-        <td><a href="#">적절한 인증 없는 중요 기능 허용</a></td>
+        <td><a href="http://localhost:8080/vulnerable/inputvalidation/board/1">적절한 인증없는 중요 기능 허용</a></td>
         <td><a href="#">경쟁 조건: 검사 시점과 사용 시점 (TOCTOU)</a></td>
-        <td><a href="#">오류 메시지 정보 누출</a></td>
+        <td><a href="#">오류 메시지 정보 노출</a></td>
         <td><a href="#">Null Pointer 역참조</a></td>
         <td><a href="#">잘못된 세세한 정보의 데이터 공개</a></td>
         <td><a href="#">DNS Lookup에 의존한 보안 결정</a></td>
     </tr>
     <tr>
-        <td><a href="http://localhost:8080/vulnerable/template-injection
-">코드 삽입</a></td>
-        <td><a href="#">부적절한 인가</a></td>
+        <td><a href="http://localhost:8080/vulnerable/template-injection">코드 삽입</a></td>
+        <td><a href="http://localhost:8080/vulnerable/inputvalidation/board/1">부적절한 인가</a></td>
         <td><a href="#">종료되지 않은 반복 재귀함수</a></td>
         <td><a href="#">오류 상황 대응 부재</a></td>
         <td><a href="#">부적절한 자원 해제</a></td>
         <td><a href="#">제거되지 않고 남은 디버그 코드</a></td>
         <td><a href="http://localhost:8080/vulnerable/api">취약한 API 사용</a></td>
     </tr>
+
     <tr>
-        <td><a href="http://localhost:8080/vulnerable/config/list
-">경로 조작 및 자원 삽입</a></td>
+        <td><a href="http://localhost:8080/vulnerable/config/list">경로 조작 및 자원 삽입</a></td>
         <td><a href="#">중요한 자원에 대한 잘못된 권한 설정</a></td>
-        <td rowspan="2"></td>
-        <td rowspan="2"></td>
-        <td><a href="#">해제된 자원 사용</a></td>
-        <td><a href="#">Public 배열로부터 반환된 Private 배열</a></td>
+        <td></td>
+        <td><a href="#">부적절한 예외처리</a></td>
+        <td><a href="#">해제된 사용</a></td>
+        <td><a href="#">Public메소드부터 반환된 Private배열</a></td>
         <td></td>
     </tr>
+
     <tr>
         <td><a href="http://localhost:8080/vulnerable/xss">크로스사이트 스크립트</a></td>
-        <td><a href="#">취약한 비밀번호 사용</a></td>
-        <td><a href="#">초기화되지 않은 변수 사용</a></td>
-        <td><a href="#">Private 배열의 Public 데이터 할당</a></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><a href="#">운영체제 명령어 삽입</a></td>
         <td><a href="#">취약한 암호화 알고리즘 사용</a></td>
         <td></td>
         <td></td>
-        <td><a href="http://localhost:8080/vulnerable/deserialization/upload
-">신뢰할 수 없는 데이터의 역직렬화</a></td>
+        <td><a href="#">초기화되지 않는 변수사용</a></td>
+        <td><a href="#">Private배열에 Public 데이터할당</a></td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td><a href="http://localhost:8080/vulnerable/oscommand">운영체제 명령어 삽입</a></td>
+        <td><a href="#">암호화되지 않은 중요정보</a></td>
+        <td></td>
+        <td></td>
+        <td><a href="#">신뢰할 수 없는 데이터의 역직렬화</a></td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td><a href="http://localhost:8080/vulnerable/fileupload/
-">위험한 형식 파일 업로드</a></td>
-        <td><a href="#">암호화되지 않은 중요정보</a></td>
+        <td><a href="http://localhost:8080/vulnerable/fileupload/">위험한 형식 파일 업로드</a></td>
+        <td><a href="#">하드코드된 중요정보</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -191,7 +192,7 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/openredirect/">신뢰되지 않은 URL주소 자동접속</a></td>
-        <td></td>
+        <td><a href="#">충분하지 않은 키 길이 사용</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -200,7 +201,7 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/xxe/">부적절한 XML 외부개체 참조</a></td>
-        <td></td>
+        <td><a href="#">적절하지 않은 난수값 사용</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -209,7 +210,7 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/xmlinjection">XML 삽입</a></td>
-        <td></td>
+        <td><a href="#">취약한 비밀번호 허용</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -218,7 +219,7 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/ldapinjection">LDAP 삽입</a></td>
-        <td></td>
+        <td><a href="#">부적절한 전자서명 확인</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -227,7 +228,7 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/csrf/list">크로스사이트 요청 위조</a></td>
-        <td></td>
+        <td><a href="#">부적절한 인증서 유효성 검증</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -236,7 +237,7 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/ssrf">서버사이드 요청 위조</a></td>
-        <td></td>
+        <td><a href="#">사용자 하드디스크에 저장되는 쿠키를 통한 정보노출</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -244,9 +245,8 @@
         <td></td>
     </tr>
     <tr>
-        <td><a href="http://localhost:8080/vulnerable/crlf
-">HTTP 응답 분할</a></td>
-        <td></td>
+        <td><a href="http://localhost:8080/vulnerable/crlf">HTTP 응답 분할</a></td>
+        <td><a href="#">주석문 안에 포함된 시스템 주요정보</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -255,7 +255,7 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/integeroverflow">정수형 오버플로우</a></td>
-        <td></td>
+        <td><a href="#">솔트없이 일방향 해쉬함수 사용</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -264,16 +264,7 @@
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/inputvalidation/board/1">보안기능 결정에 사용되는 부적절한 입력값</a></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><a href="#">메모리 버퍼 오버플로우</a></td>
-        <td></td>
+        <td><a href="#">무결성 검사 없는 코드 다운로드</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -281,7 +272,16 @@
         <td></td>
     </tr>
     <tr>
-        <td><a href="#">포맷 스트링 삽입</a></td>
+        <td><a href="http://localhost:8080/vulnerable/bufferoverflow">메모리 버퍼 오버플로우</a></td>
+        <td><a href="#">반복된 인증시도 제한기능 부재</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="http://localhost:8080/vulnerable/formatstring">포맷 스트링 삽입</a></td>
         <td></td>
         <td></td>
         <td></td>

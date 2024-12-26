@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -141,8 +141,19 @@
 
 <!-- Messages Section -->
 <div class="container">
-    <div class="message" th:if="${message}" th:text="${message}"></div>
-    <div class="message error" th:if="${error}" th:text="${error}"></div>
+    <div class="form-section">
+        <!-- 성공 메시지 -->
+        <div th:if="${message}" class="alert success-message"
+             style="background-color: #dff0d8; color: #3c763d; padding: 15px; border-radius: 4px; margin-top: 20px;">
+            <span th:text="${message}"></span>
+        </div>
+
+        <!-- 에러 메시지 -->
+        <div th:if="${error}" class="alert error-message"
+             style="background-color: #f2dede; color: #a94442; padding: 15px; border-radius: 4px; margin-top: 20px;">
+            <span th:text="${error}"></span>
+        </div>
+    </div>
 </div>
 
 <!-- Footer Section -->

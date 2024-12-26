@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메모리 버퍼 오버플로우</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 설명 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">메모리 버퍼 오버플로우</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 설명 -->
+<div class="description-box">
+    <p><strong>설명:</strong> 메모리 버퍼 오버플로우는 프로그램이 정해진 버퍼 크기를 초과하여 데이터를 기록하려고 할 때 발생합니다. 이로 인해 인접 메모리가 덮어씌워질 수 있으며, 공격자는 이를 악용해 시스템 명령을 실행하거나 데이터를 훼손할 수 있습니다.</p>
+    <p><strong>대책:</strong> 사용자 입력값의 크기를 제한하고, 버퍼 크기를 초과하지 않도록 검증 코드를 작성해야 합니다.</p>
+</div>
+
+<!-- 샘플 코드 -->
+<div class="code-box">
+    <h2>샘플 코드</h2>
+    <h3>취약 코드:</h3>
+    <code>
+        // C 언어 예제</p>
+        char buffer[10];</p>
+        strcpy(buffer, userInput); // 취약: 크기 제한 없이 입력값을 복사</p>
+    </code>
+    <h3>안전 코드:</h3>
+    <code>
+        // C 언어 예제</p>
+        char buffer[10];</p>
+        strncpy(buffer, userInput, sizeof(buffer) - 1); // 안전: 크기 제한</p>
+        buffer[sizeof(buffer) - 1] = '\0'; // 널 종료 추가</p>
+    </code>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>
