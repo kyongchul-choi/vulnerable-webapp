@@ -100,13 +100,20 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #f4f6f8;
-            text-align: center;
+            text-align: left;
         }
 
         .description-box p {
             margin: 10px 0;
             font-size: 16px;
+            margin-top: 2em; /* 윗 여백 추가 */
         }
+
+         .description-box p.cwe-title {
+        display: block; /* 블록 요소로 처리 */
+        margin-top: 2em; /* 윗 여백 추가 */
+    }
+
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -121,7 +128,7 @@
 
 <!-- 취약점 이름 -->
 <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-    <h1 style="margin: 0;">설정 파일 관리</h1>
+    <h1 style="margin: 0;">중요한 자원에 대한 잘못된 권한설정</h1>
     <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
         <button style="background-color: #0056b3; color: #ffffff; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer;">
             돌아가기
@@ -132,8 +139,29 @@
 
 <!-- 설명 -->
 <div class="description-box">
-    <p><strong>설명:</strong> 설정 파일 관리에서 발생하는 취약점은 디렉토리 탐색, 백업 파일 접근, 암호화 키 노출, 권한 우회를 포함할 수 있습니다.</p>
-    <p><strong>대책:</strong> 파일 접근 시 입력값 검증, 권한 확인, 그리고 안전한 암호화 및 접근 제어를 구현하세요.</p>
+    <p><strong>설명 :</strong>다음과 같은 취약점들이 포함할 수 있습니다.</p>
+    <p class="cwe-title"><strong>CWE-285:Improper Authorization</strong></p>
+    <p>부적절한 권한 부여 - 시스템이 사용자의 권한을 적절히 확인하지 않고 중요 자원에 대한 접근을 허용하는 취약점</p>
+
+    <p class="cwe-title"><strong>CWE-732:Incorrect Permission Assignment for Critical Resource</strong></p>
+    <p>중요 자원에 대한 잘못된 권한 할당 - 파일, 디렉토리, 기타 자원에 대해 과도하게 허용적인 권한을 설정</p>
+
+    <p class="cwe-title"><strong>CWE-264: Permissions, Privileges, and Access Controls</strong></p>
+    <p>전반적인 권한, 특권 및 접근 제어 관련 취약점 - 부적절한 접근 제어로 인해 발생하는 보안 문제들의 상위 카테고리</p>
+
+    <p class="cwe-title"><strong>CWE-269: Improper Privilege Management</strong></p>
+    <p>부적절한 권한 관리 - 권한 상승이나 권한 검증 우회가 가능한 취약점</p>
+
+    <p class="cwe-title"><strong>CWE-284: Improper Access Control</strong></p>
+    <p>부적절한 접근 통제 - 자원에 대한 접근을 제어하는 메커니즘이 없거나 불충분한 경우</p>
+
+    <p class="cwe-title"><strong>CWE-266: Incorrect Privilege Assignment</strong></p>
+    <p>잘못된 권한 할당 - 사용자나 프로세스에 필요 이상의 권한을 부여하는 경우</p>
+
+    <p class="cwe-title"><strong>CWE-639: Authorization Bypass Through User-Controlled Key</strong></p>
+    <p>사용자가 제어할 수 있는 키를 통한 인가 우회</p>
+
+    <p><strong>대책 :</strong> 파일 접근 시 입력값 검증, 권한 확인, 그리고 안전한 암호화 및 접근 제어를 구현하세요.</p>
 </div>
 
 <!-- 본문 내용 -->

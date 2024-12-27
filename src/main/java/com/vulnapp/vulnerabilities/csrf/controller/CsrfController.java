@@ -6,8 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+// CSRF 관련 추가 필요한 import
+import org.springframework.security.web.csrf.CsrfToken;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -35,8 +37,19 @@ public class CsrfController {
         return "csrf/create";
     }
 
+    /* 원본
     @PostMapping("/post")
     public String createPost(@RequestParam String title, @RequestParam String content) {
+        Post post = new Post();
+        post.setTitle(title);
+        post.setContent(content);
+        postRepository.save(post);
+        return "redirect:/vulnerable/csrf/list";
+    }
+     */
+    @PostMapping("/post")
+    public String createPost(@RequestParam String title,
+                             @RequestParam String content) {
         Post post = new Post();
         post.setTitle(title);
         post.setContent(content);
