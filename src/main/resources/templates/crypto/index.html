@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>취약한 암호화 알고리즘</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        .description-box p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .header .header-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-text {
+            color: #0056b3;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .back-button {
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #007bff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<!-- Header Section -->
+<div class="header">
+    <div class="header-content">
+        <img src="/images/logo.png" alt="Company Logo">
+        <div class="header-text">오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</div>
+    </div>
+</div>
+
+<div class="container">
+    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+        <h1 style="margin: 0;">취약한 암호화 알고리즘</h1>
+        <a href="/index.html" class="back-button">돌아가기</a>
+    </div>
+
+    <div class="description-box">
+        <p><strong>설명 :</strong></p>
+        <ul>
+            <li><strong>대칭키 암호화:</strong> 단일 키를 사용하여 암호화 및 복호화를 수행하며, 키가 노출되면 보안이 손상됩니다.</li>
+            <li><strong>공개키 암호화:</strong> 비대칭 키를 사용하여 보안을 강화하지만, 짧은 키 길이는 공격에 취약합니다.</li>
+            <li><strong>해시 알고리즘:</strong> 데이터 무결성을 검증하지만, MD5와 같은 약한 알고리즘은 충돌 공격에 취약합니다.</li>
+        </ul>
+        <p><strong>대책 :</strong></p>
+        <ul>
+            <li>대칭키 암호화: AES-256과 같은 강력한 알고리즘을 사용하세요.</li>
+            <li>공개키 암호화: RSA-2048 이상 또는 ECC를 활용하세요.</li>
+            <li>해시 알고리즘: SHA-256 이상의 강력한 해시 함수와 비밀번호 해싱 기법(PBKDF2, bcrypt 등)을 사용하세요.</li>
+        </ul>
+    </div>
+
+    <ul>
+        <li><a href="/vulnerable/crypto/ecb/learn">ECB모드 취약점 학습</a></li>
+        <li><a href="/vulnerable/crypto/comparison">ECB 및 GCM 암호화 모드 비교</a></li>
+        <li><a href="/vulnerable/crypto/hash/password">비밀번호 해쉬 취약점 학습</a></li>
+    </ul>
+</div>
+
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

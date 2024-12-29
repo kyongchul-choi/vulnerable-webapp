@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부적절한 전자서명 확인</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 설명 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">부적절한 전자서명 확인</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- CWE 설명 -->
+<div class="description-box">
+    <h2>취약점 설명</h2>
+    <p><strong>CWE-347: Improper Verification of Cryptographic Signature</strong></p>
+    <p>전자서명의 유효성을 제대로 확인하지 않는 경우 발생하는 취약점입니다.
+        이는 서명이 위조되거나 변조된 데이터를 허용할 위험을 증가시킵니다.</p>
+</div>
+
+<!-- 취약한 코드 예제 -->
+<div class="code-box">
+    <h2>취약한 코드 예제</h2>
+    <h3>1. 전자서명 확인 누락:</h3>
+    <code>
+        import java.security.Signature;</p>
+        import java.security.PublicKey;</p>
+
+        public class SignatureValidation {</p>
+        public boolean isValidSignature(byte[] data, byte[] signature, PublicKey publicKey) throws Exception {</p>
+        // 취약: 전자서명 확인 없이 데이터 수용</p>
+        return true;</p>
+        }</p>
+        }</p>
+    </code>
+
+    <h3>2. 부적절한 서명 검증:</h3>
+    <code>
+        import java.security.Signature;</p>
+        import java.security.PublicKey;</p>
+
+        public class SignatureValidation {</p>
+        public boolean isValidSignature(byte[] data, byte[] signature, PublicKey publicKey) throws Exception {</p>
+        Signature sig = Signature.getInstance("SHA256withRSA");</p>
+        sig.initVerify(publicKey);</p>
+        sig.update(data);</p>
+        sig.verify(signature); // 검증 결과를 반환하지 않음</p>
+        return true; // 취약: 서명 검증 결과를 무시하고 항상 true 반환</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- 안전한 구현 -->
+<div class="code-box">
+    <h2>안전한 구현 방법</h2>
+    <h3>1. 올바른 서명 검증:</h3>
+    <code>
+        import java.security.Signature;</p>
+        import java.security.PublicKey;</p>
+
+        public class SignatureValidation {</p>
+        public boolean isValidSignature(byte[] data, byte[] signature, PublicKey publicKey) throws Exception {</p>
+        Signature sig = Signature.getInstance("SHA256withRSA");</p>
+        sig.initVerify(publicKey);</p>
+        sig.update(data);</p>
+        return sig.verify(signature); // 결과를 정확히 처리</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- 보안 대책 -->
+<div class="description-box">
+    <h2>보안 대책</h2>
+    <h3>1. 서명 검증 강화</h3>
+    <ul>
+        <li>전자서명 검증을 모든 데이터 처리 전에 수행</li>
+        <li>전자서명이 올바르게 확인되지 않을 경우 데이터 수용 금지</li>
+    </ul>
+
+    <h3>2. 암호화 모범 사례</h3>
+    <ul>
+        <li>최신 암호화 알고리즘 사용</li>
+        <li>전자서명 라이브러리의 안전한 설정 사용</li>
+    </ul>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

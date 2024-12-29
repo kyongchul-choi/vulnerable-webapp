@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부적절한 인증서 유효성 검증</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 설명 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">부적절한 인증서 유효성 검증</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- CWE 설명 -->
+<div class="description-box">
+    <h2>취약점 설명</h2>
+    <p><strong>CWE-295: Improper Certificate Validation</strong></p>
+    <p>서버 인증서를 검증하지 않거나 검증 절차를 생략하는 경우 발생하는 취약점입니다.
+        이는 공격자가 중간자 공격(MITM)을 수행할 수 있는 가능성을 증가시킵니다.</p>
+</div>
+
+<!-- 취약한 코드 예제 -->
+<div class="code-box">
+    <h2>취약한 코드 예제</h2>
+    <h3>1. 인증서 검증을 비활성화:</h3>
+    <code>
+        import javax.net.ssl.*;</p>
+        import java.security.cert.X509Certificate;</p>
+
+        public class InsecureSSL {</p>
+        public static void disableSSLVerification() throws Exception {</p>
+        // 문제: 모든 인증서를 신뢰하도록 TrustManager 설정</p>
+        TrustManager[] trustAllCerts = new TrustManager[] {</p>
+        new X509TrustManager() {</p>
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {}</p>
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {}</p>
+        public X509Certificate[] getAcceptedIssuers() {</p>
+        return null; // 문제: 수락 가능한 인증서 없음</p>
+        }</p>
+        }</p>
+        };</p>
+
+        // 문제: SSLContext에 비정상적인 TrustManager 등록</p>
+        SSLContext sc = SSLContext.getInstance("TLS");</p>
+        sc.init(null, trustAllCerts, new java.security.SecureRandom());</p>
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());</p>
+
+        // 문제: 호스트 이름 검증을 무조건 통과</p>
+        HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- 안전한 구현 -->
+<div class="code-box">
+    <h2>안전한 구현</h2>
+    <h3>1. 인증서 유효성 검증:</h3>
+    <code>
+        import javax.net.ssl.*;</p>
+        import java.security.cert.CertificateException;</p>
+        import java.security.cert.X509Certificate;</p>
+
+        public class SecureSSL {</p>
+        public static void configureSSLVerification() throws Exception {</p>
+        // 신뢰할 수 있는 인증서만 허용하도록 TrustManager 설정</p>
+        TrustManager[] trustManagers = new TrustManager[] {</p>
+        new X509TrustManager() {</p>
+        public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {}</p>
+
+        public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {</p>
+        for (X509Certificate cert : certs) {</p>
+        cert.checkValidity(); // 유효 기간 확인</p>
+
+        // 인증서 발행자 확인</p>
+        String issuer = cert.getIssuerX500Principal().getName();</p>
+        if (!issuer.contains("Trusted CA")) { // 예: "Trusted CA"로 교체</p>
+        throw new CertificateException("Untrusted certificate issuer: " + issuer);</p>
+        }</p>
+        }</p>
+        }</p>
+
+        public X509Certificate[] getAcceptedIssuers() {</p>
+        return new X509Certificate[0];</p>
+        }</p>
+        }</p>
+        };</p>
+
+        SSLContext sc = SSLContext.getInstance("TLSv1.2"); // 최신 프로토콜 사용</p>
+        sc.init(null, trustManagers, new java.security.SecureRandom());</p>
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- 보안 대책 -->
+<div class="description-box">
+    <h2>보안 대책</h2>
+    <h3>1. 적절한 인증서 검증 수행</h3>
+    <ul>
+        <li>SSL/TLS 인증서의 유효성 확인</li>
+        <li>호스트 이름 검증 활성화</li>
+    </ul>
+
+    <h3>2. 보안 설정 강화</h3>
+    <ul>
+        <li>안전한 SSL/TLS 프로토콜 사용</li>
+        <li>신뢰할 수 있는 CA(Certificate Authority)만 허용</li>
+    </ul>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

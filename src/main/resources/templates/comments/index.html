@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주석문 안에 포함된 시스템 주요정보</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* 흰색 배경 */
+            color: #333;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3; /* 파란색 버튼 */
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff; /* 버튼 호버 효과 */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">주석문 안에 포함된 시스템 주요정보</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- CWE 설명 -->
+<div class="code-box">
+    <h2>취약점 설명</h2>
+    <p><strong>CWE-615: Inclusion of Sensitive Information in Source Code Comments</strong></p>
+    <p>주석문에 시스템 주요정보(예: 자격증명, API 키, 경로 등)가 포함된 경우 소스코드 유출 시 민감한 정보가 노출될 수 있습니다.</p>
+</div>
+
+<!-- 취약한 코드 예제 -->
+<div class="code-box">
+    <h2>취약한 코드 예제</h2>
+    <code>
+        public class DatabaseConnection {</p>
+        // 주석에 데이터베이스 비밀번호 포함</p>
+        // 비밀번호: "P@ssword123"</p>
+        private static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";</p>
+        private static final String USERNAME = "admin";</p>
+        private static final String PASSWORD = "secret";</p>
+
+        public Connection connect() throws SQLException {</p>
+        return DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- 안전한 구현 -->
+<div class="code-box">
+    <h2>안전한 구현 방법</h2>
+    <code>
+        public class DatabaseConnection {</p>
+        // 주석에 민감한 정보 포함 금지</p>
+        private static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";</p>
+        private static final String USERNAME = System.getenv("DB_USERNAME");</p>
+        private static final String PASSWORD = System.getenv("DB_PASSWORD");</p>
+
+        public Connection connect() throws SQLException {</p>
+        return DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- 보안 대책 -->
+<div class="code-box">
+    <h2>보안 대책</h2>
+    <ul>
+        <li>민감한 정보를 주석문에 포함하지 않도록 코드 검토 및 가이드라인 설정</li>
+        <li>정적 분석 도구를 사용하여 주석에서 민감한 정보 자동 탐지</li>
+        <li>환경 변수 또는 안전한 비밀 관리 도구를 사용하여 민감한 정보 처리</li>
+    </ul>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div>
+        저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+    </div>
+</footer>
+</body>
+</html>

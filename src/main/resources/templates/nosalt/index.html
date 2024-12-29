@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>솔트 없이 일방향 해쉬함수 사용</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* 흰색 배경 */
+            color: #333;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3; /* 파란색 버튼 */
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff; /* 버튼 호버 효과 */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">솔트 없이 일방향 해쉬함수 사용</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- CWE 설명 -->
+<div class="code-box">
+    <h2>취약점 설명</h2>
+    <p><strong>CWE-759: Use of a One-Way Hash without a Salt</strong></p>
+    <p>솔트를 사용하지 않고 단순히 해쉬함수를 적용하면 동일한 입력값에 대해 동일한 해쉬값이 생성됩니다.
+        이는 무차별 대입 공격 및 레인보우 테이블 공격에 취약합니다.</p>
+</div>
+
+<!-- 취약한 코드 예제 -->
+<div class="code-box">
+    <h2>취약한 코드 예제</h2>
+    <code>
+        import java.security.MessageDigest;</p>
+
+        public class HashingExample {</p>
+        public String hashPassword(String password) throws Exception {</p>
+        // 취약: 솔트 없이 단순 해쉬 적용</p>
+        MessageDigest md = MessageDigest.getInstance("SHA-256");</p>
+        byte[] hash = md.digest(password.getBytes());</p>
+        StringBuilder hexString = new StringBuilder();</p>
+        for (byte b : hash) {</p>
+        hexString.append(String.format("%02x", b));</p>
+        }</p>
+        return hexString.toString();</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- 안전한 구현 -->
+<div class="code-box">
+    <h2>안전한 구현 방법</h2>
+    <code>
+        import java.security.MessageDigest;</p>
+        import java.security.SecureRandom;</p>;
+
+        public class HashingExample {</p>
+        public String hashPasswordWithSalt(String password) throws Exception {</p>
+        // 안전: 솔트 추가</p>
+        SecureRandom sr = new SecureRandom();</p>
+        byte[] salt = new byte[16];</p>
+        sr.nextBytes(salt);</p>
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");</p>
+        md.update(salt); // 솔트 추가</p>
+        byte[] hash = md.digest(password.getBytes());</p>
+
+        StringBuilder hexString = new StringBuilder();</p>
+        for (byte b : hash) {</p>
+        hexString.append(String.format("%02x", b));</p>
+        }</p>
+        return hexString.toString();</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- 보안 대책 -->
+<div class="code-box">
+    <h2>보안 대책</h2>
+    <ul>
+        <li>모든 비밀번호 해쉬에 고유한 솔트를 추가하여 무차별 대입 공격과 레인보우 테이블 공격 방지</li>
+        <li>PBKDF2, bcrypt, Argon2와 같은 키 스트레칭 알고리즘 사용</li>
+        <li>솔트와 해쉬된 비밀번호를 안전한 저장소에 함께 저장</li>
+    </ul>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div>
+        저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+    </div>
+</footer>
+</body>
+</html>

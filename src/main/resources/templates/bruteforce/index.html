@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반복된 인증 시도 제한 기능 부재</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">반복된 인증 시도 제한 기능 부재</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 설명과 해결책 -->
+<div class="description-box">
+    <p><strong>설명:</strong> 반복된 인증 시도 제한 기능이 없는 경우, 공격자는 무차별 대입 공격(Brute Force)을 통해 비밀번호를 알아낼 수 있습니다. 이는 계정 탈취 및 시스템 접근의 주요 원인이 될 수 있습니다.</p>
+    <p><strong>대책:</strong> 인증 시도 횟수를 제한하거나, 계정 잠금 기능을 도입하여 무차별 대입 공격을 방지하세요.</p>
+</div>
+
+<!-- 샘플 코드 -->
+<div class="code-box">
+    <h2>샘플 코드</h2>
+    <h3>취약 코드:</h3>
+    <code>
+        public boolean authenticate(String username, String password) {</p>
+        // 취약: 인증 시도 제한 없음</p>
+        String storedPassword = getPasswordFromDatabase(username);</p>
+        return storedPassword.equals(password);</p>
+        }</p>
+    </code>
+    <h3>안전 코드:</h3>
+    <code>
+        import java.util.concurrent.ConcurrentHashMap;</p>
+        import java.util.concurrent.TimeUnit;</p>
+
+        public class Authenticator {</p>
+        private final ConcurrentHashMap&ltString, Integer&gt loginAttempts = new ConcurrentHashMap&lt&gt();</p>
+        private final int MAX_ATTEMPTS = 5;</p>
+        private final long LOCK_TIME = TimeUnit.MINUTES.toMillis(15);</p>
+
+        public boolean authenticate(String username, String password) {</p>
+        if (isAccountLocked(username)) {</p>
+        throw new SecurityException("계정이 잠겨 있습니다.");</p>
+        }</p>
+        String storedPassword = getPasswordFromDatabase(username);</p>
+        boolean isAuthenticated = storedPassword.equals(password);</p>
+
+        if (!isAuthenticated) {</p>
+        incrementLoginAttempts(username);</p>
+        } else {</p>
+        resetLoginAttempts(username);</p>
+        }</p>
+        return isAuthenticated;</p>
+        }</p>
+
+        private void incrementLoginAttempts(String username) {</p>
+        loginAttempts.merge(username, 1, Integer::sum);</p>
+        if (loginAttempts.get(username) >= MAX_ATTEMPTS) {</p>
+        lockAccount(username);</p>
+        }</p>
+        }</p>
+
+        private void resetLoginAttempts(String username) {</p>
+        loginAttempts.remove(username);</p>
+        }</p>
+
+        private boolean isAccountLocked(String username) {</p>
+        // 계정 잠금 상태 확인</p>
+        return false; // 구현 필요</p>
+        }</p>
+
+        private void lockAccount(String username) {</p>
+        // 계정 잠금 로직 구현</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안전하지 않은 중요정보 처리</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 설명 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">안전하지 않은 중요정보 처리</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- CWE 설명 -->
+<div class="description-box">
+    <h2>주요 CWE 설명</h2>
+    <p><strong>CWE-312: Cleartext Storage of Sensitive Information</strong></p>
+    <p>중요 정보를 평문으로 저장하는 취약점입니다. 비밀번호, 개인식별정보, 암호화 키 등이 암호화되지 않은 상태로 저장될 수 있습니다.</p>
+
+    <p><strong>CWE-319: Cleartext Transmission of Sensitive Information</strong></p>
+    <p>중요 정보를 평문으로 전송하는 취약점입니다. SSL/TLS 없이 네트워크를 통해 중요 정보가 전송됩니다.</p>
+</div>
+
+<!-- 취약한 코드 예제 -->
+<div class="code-box">
+    <h2>취약한 코드 예제</h2>
+    <h3>1. 평문 저장 (CWE-312):</h3>
+    <code>
+        // 취약한 코드</p>
+        public class WeakStorage {</p>
+        private static final String KEY = "mysecretkey12345";</p>
+        </p>
+        public void storeKey() {</p>
+        FileWriter writer = new FileWriter("key.txt");</p>
+        writer.write(KEY);  // 평문으로 키 저장</p>
+        writer.close();</p>
+        }</p>
+        }</p>
+    </code>
+
+    <h3>2. 평문 전송 (CWE-319):</h3>
+    <code>
+        // 취약한 코드</p>
+        String password = request.getParameter("password");</p>
+        URL url = new URL("http://example.com/login");  // HTTP 사용</p>
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();</p>
+        conn.setRequestMethod("POST");</p>
+        conn.setDoOutput(true);</p>
+        OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());</p>
+        out.write("password=" + password);  // 평문으로 패스워드 전송</p>
+    </code>
+</div>
+
+<!-- 안전한 구현 -->
+<div class="code-box">
+    <h2>안전한 구현 방법</h2>
+    <h3>1. 안전한 저장:</h3>
+    <code>
+        // 안전한 코드</p>
+        public class SecureStorage {</p>
+        public void storeKey(String key) {</p>
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");</p>
+        keyStore.load(null, null);</p>
+        </p>
+        KeyStore.SecretKeyEntry secretKeyEntry = new KeyStore.SecretKeyEntry(</p>
+        new SecretKeySpec(key.getBytes(), "AES")</p>
+        );</p>
+        keyStore.setEntry("keyAlias", secretKeyEntry,</p>
+        new KeyStore.PasswordProtection("password".toCharArray()));</p>
+        }</p>
+        }</p>
+    </code>
+
+    <h3>2. 안전한 전송:</h3>
+    <code>
+        // 안전한 코드</p>
+        String password = request.getParameter("password");</p>
+        URL url = new URL("https://example.com/login");  // HTTPS 사용</p>
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();</p>
+        conn.setRequestMethod("POST");</p>
+        conn.setSSLSocketFactory(context.getSocketFactory());  // SSL/TLS 사용</p>
+    </code>
+</div>
+
+<!-- 보안 대책 -->
+<div class="description-box">
+    <h2>보안 대책</h2>
+    <p><strong>1. 암호화 사용</strong></p>
+    <ul>
+        <li>중요 정보는 항상 암호화하여 저장</li>
+        <li>안전한 암호화 알고리즘 사용 (AES-256 등)</li>
+        <li>SSL/TLS를 통한 안전한 전송</li>
+    </ul>
+
+    <p><strong>2. 키 관리</strong></p>
+    <ul>
+        <li>안전한 키 저장소 사용</li>
+        <li>주기적인 키 교체</li>
+        <li>접근 통제 적용</li>
+    </ul>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>
