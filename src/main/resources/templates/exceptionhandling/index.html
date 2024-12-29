@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부적절한 예외처리</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">부적절한 예외처리</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button style="background-color: #0056b3; color: #ffffff; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer;">
+            돌아가기
+        </button>
+    </a>
+</div>
+
+<div class="description-box">
+    <h2>취약점 설명</h2>
+    <p><strong>CWE-396: Declaration of Catch for Generic Exception</strong></p>
+    <p>애플리케이션이 예외를 부적절하게 처리하는 경우 발생하는 취약점입니다. 너무 광범위한 예외 처리, 빈 catch 블록,
+        예외 무시 등으로 인해 보안 문제가 발생하거나 시스템이 예기치 않게 동작할 수 있습니다.</p>
+</div>
+
+<div class="code-box">
+    <h2>취약한 코드 예제</h2>
+    <h3>1. 광범위한 예외 처리:</h3>
+    <code>
+        public void processUserData(String userData) {</p>
+        try {</p>
+        // 사용자 데이터 처리</p>
+        validateUser(userData);</p>
+        updateDatabase(userData);</p>
+        } catch (Exception e) {</p>
+        // 취약: 모든 예외를 동일하게 처리</p>
+        System.out.println("Error occurred");</p>
+        }</p>
+        }</p>
+    </code>
+
+    <h3>2. 빈 Catch 블록:</h3>
+    <code>
+        public void readConfiguration() {</p>
+        try {</p>
+        Properties props = new Properties();</p>
+        props.load(new FileInputStream("config.properties"));</p>
+        } catch (IOException e) {</p>
+        // 취약: 예외를 무시</p>
+        }</p>
+        }</p>
+    </code>
+
+    <h3>3. 예외 전파 누락:</h3>
+    <code>
+        public void processPayment(Payment payment) {</p>
+        try {</p>
+        validatePayment(payment);</p>
+        deductAmount(payment);</p>
+        updateBalance(payment);</p>
+        } catch (Exception e) {</p>
+        // 취약: 예외 정보 손실</p>
+        throw new RuntimeException("Payment failed");</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<div class="code-box">
+    <h2>안전한 구현 방법</h2>
+    <h3>1. 구체적인 예외 처리:</h3>
+    <code>
+        public void processUserData(String userData) {</p>
+        try {</p>
+        validateUser(userData);</p>
+        updateDatabase(userData);</p>
+        } catch (ValidationException e) {</p>
+        logger.error("유효성 검증 실패", e);</p>
+        throw new BusinessException("잘못된 사용자 데이터");</p>
+        } catch (DatabaseException e) {</p>
+        logger.error("데이터베이스 오류", e);</p>
+        throw new SystemException("시스템 오류가 발생했습니다");</p>
+        }</p>
+        }</p>
+    </code>
+
+    <h3>2. 적절한 예외 처리와 로깅:</h3>
+    <code>
+        public void readConfiguration() {</p>
+        try {</p>
+        Properties props = new Properties();</p>
+        props.load(new FileInputStream("config.properties"));</p>
+        } catch (IOException e) {</p>
+        logger.error("설정 파일 로드 실패", e);</p>
+        loadDefaultConfiguration();</p>
+        throw new ConfigurationException("설정 로드 실패", e);</p>
+        }</p>
+        }</p>
+    </code>
+
+    <h3>3. 예외 래핑과 전파:</h3>
+    <code>
+        public void processPayment(Payment payment) throws PaymentException {</p>
+        try {</p>
+        validatePayment(payment);</p>
+        deductAmount(payment);</p>
+        updateBalance(payment);</p>
+        } catch (ValidationException e) {</p>
+        throw new PaymentException("결제 유효성 검증 실패", e);</p>
+        } catch (InsufficientFundsException e) {</p>
+        throw new PaymentException("잔액 부족", e);</p>
+        } catch (DatabaseException e) {</p>
+        throw new SystemException("시스템 오류", e);</p>
+        }</p>
+        }</p>
+    </code>
+</div>
+
+<div class="description-box">
+    <h2>보안 대책</h2>
+    <h3>1. 예외 처리 원칙</h3>
+    <ul>
+        <li>구체적인 예외 타입 사용</li>
+        <li>예외 처리 시 적절한 로깅</li>
+        <li>사용자에게 적절한 오류 메시지 제공</li>
+        <li>시스템 내부 정보 노출 방지</li>
+    </ul>
+
+    <h3>2. 예외 계층 구조</h3>
+    <ul>
+        <li>비즈니스 예외와 시스템 예외 구분</li>
+        <li>커스텀 예외 클래스 활용</li>
+        <li>예외 래핑 전략 수립</li>
+    </ul>
+
+    <h3>3. 로깅 전략</h3>
+    <ul>
+        <li>적절한 로그 레벨 사용</li>
+        <li>예외 발생 컨텍스트 포함</li>
+        <li>스택 트레이스 보존</li>
+        <li>중요 정보 마스킹</li>
+    </ul>
+
+    <h3>4. 복구 전략</h3>
+    <ul>
+        <li>기본값 또는 대체 동작 제공</li>
+        <li>트랜잭션 롤백 처리</li>
+        <li>시스템 상태 정합성 유지</li>
+        <li>재시도 메커니즘 구현</li>
+    </ul>
+</div>
+
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>
