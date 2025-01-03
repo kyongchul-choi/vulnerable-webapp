@@ -30,6 +30,17 @@ public class ConfigFileService {
             String baseDir = System.getProperty("user.dir") + "/src/main/resources/config/";
             // 경로 조합 (취약점: 상대 경로 ../를 허용)
             String fullPath = new File(baseDir + path).getCanonicalPath();
+            // getCanonicalPath()는 상대 경로를 표준화하여 절대 경로로 변환
+            /*
+            2) 상대 경로(../../../../../../../../../../windows/win.ini) 처리:
+                ../는 한 디렉토리를 상위로 이동합니다. 이를 기준 디렉토리에 차례로 적용하면:
+                C:\Users\Project\src\main\resources\config\.. → C:\Users\Project\src\main\resources\
+                C:\Users\Project\src\main\resources\.. → C:\Users\Project\src\main\
+                C:\Users\Project\src\main\.. → C:\Users\Project\
+                C:\Users\Project\.. → C:\Users\
+                C:\Users\.. → C:\
+                즉 C:\에서 windows/win.ini로 이동가능
+             */
 
             System.out.println("Attempting to access: " + fullPath); // 디버깅용
 

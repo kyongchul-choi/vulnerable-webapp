@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부적절한 자원 해제</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">부적절한 자원 해제</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 설명과 해결책 -->
+<div class="description-box">
+    <p><strong>설명:</strong> 자원을 적절히 해제하지 않으면, 메모리 누수, 파일 핸들 누수 등의 문제가 발생하여 시스템 성능 저하 및 프로그램 충돌을 초래할 수 있습니다.</p>
+    <p><strong>대책:</strong> 모든 자원을 사용한 후에는 명시적으로 해제하거나 자동 자원 관리를 사용하는 구조를 설계하세요.</p>
+</div>
+
+<!-- 샘플 코드 -->
+<div class="code-box">
+    <h2>샘플 코드</h2>
+    <h3>취약 코드:</h3>
+    <code>
+        import java.io.BufferedReader;</p>
+        import java.io.FileReader;</p>
+        import java.io.IOException;</p>
+
+        public void readFile(String filePath) throws IOException {</p>
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));</p>
+        // 취약: 자원을 명시적으로 해제하지 않음</p>
+        String line;</p>
+        while ((line = reader.readLine()) != null) {</p>
+        System.out.println(line);</p>
+        }</p>
+        }</p>
+    </code>
+    <p><strong>설명:</strong>
+        위 코드는 파일 읽기 작업 후 자원을 해제하지 않아 파일 핸들이 누적될 수 있습니다.
+        이는 운영 체제의 파일 핸들 제한에 도달하게 되어 프로그램 실행이 중단될 수 있습니다.
+    </p>
+
+    <h3>안전 코드:</h3>
+    <code>
+        import java.io.BufferedReader;</p>
+        import java.io.FileReader;</p>
+        import java.io.IOException;</p>;
+
+        public void readFileSafely(String filePath) throws IOException {</p>
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {</p>
+        // 안전: try-with-resources를 사용해 자원을 자동 해제</p>
+        String line;</p>
+        while ((line = reader.readLine()) != null) {</p>
+        System.out.println(line);</p>
+        }</p>
+        }</p>
+        }</p>
+    </code>
+    <p><strong>설명:</strong>
+        이 코드는 `try-with-resources`를 사용하여 파일 읽기 작업이 끝난 후 자원이 자동으로 해제되도록 보장합니다.
+    </p>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

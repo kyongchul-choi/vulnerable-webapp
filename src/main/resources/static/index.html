@@ -120,7 +120,7 @@
 </div>
 
 
-<h1>소프트웨어 보안 약점 49개 실습</h1>
+<h1>소프트웨어 보안약점 49개 실습 - Version : 202501</h1>
 <p>아래의 표에서 각 항목을 클릭하면 해당 취약점 실습 페이지로 이동합니다.</p>
 
 <table>
@@ -136,19 +136,19 @@
     <tr>
         <td><a href="http://localhost:8080/vulnerable/sql/login">SQL 삽입</a></td>
         <td><a href="http://localhost:8080/vulnerable/inputvalidation/board/1">적절한 인증없는 중요 기능 허용</a></td>
-        <td><a href="#">경쟁 조건: 검사 시점과 사용 시점 (TOCTOU)</a></td>
+        <td><a href="http://localhost:8080/vulnerable/racecondition">경쟁 조건: 검사 시점과 사용 시점 (TOCTOU)</a></td>
         <td><a href="http://localhost:8080/vulnerable/errormessage">오류 메시지 정보 노출</a></td>
-        <td><a href="#">Null Pointer 역참조</a></td>
-        <td><a href="#">잘못된 세세한 정보의 데이터 공개</a></td>
-        <td><a href="#">DNS Lookup에 의존한 보안 결정</a></td>
+        <td><a href="http://localhost:8080/vulnerable/nullpointer">Null Pointer 역참조</a></td>
+        <td><a href="http://localhost:8080/vulnerable/informationdisclosure">잘못된 세세한 정보의 데이터 공개</a></td>
+        <td><a href="http://localhost:8080/vulnerable/dnslookup">DNS Lookup에 의존한 보안 결정</a></td>
     </tr>
     <tr>
         <td><a href="http://localhost:8080/vulnerable/template-injection">코드 삽입</a></td>
         <td><a href="http://localhost:8080/vulnerable/inputvalidation/board/1">부적절한 인가</a></td>
-        <td><a href="#">종료되지 않은 반복 재귀함수</a></td>
+        <td><a href="http://localhost:8080/vulnerable/infiniterecursion">종료되지 않은 반복 재귀함수</a></td>
         <td><a href="http://localhost:8080/vulnerable/errorhandling">오류 상황 대응 부재</a></td>
-        <td><a href="#">부적절한 자원 해제</a></td>
-        <td><a href="#">제거되지 않고 남은 디버그 코드</a></td>
+        <td><a href="http://localhost:8080/vulnerable/improperresource">부적절한 자원 해제</a></td>
+        <td><a href="http://localhost:8080/vulnerable/debugcode">제거되지 않고 남은 디버그 코드</a></td>
         <td><a href="http://localhost:8080/vulnerable/api">취약한 API 사용</a></td>
     </tr>
 
@@ -157,8 +157,8 @@
         <td><a href="http://localhost:8080/vulnerable/config/list">중요한 자원에 대한 잘못된 권한 설정</a></td>
         <td></td>
         <td><a href="http://localhost:8080/vulnerable/exceptionhandling">부적절한 예외처리</a></td>
-        <td><a href="#">해제된 사용</a></td>
-        <td><a href="#">Public메소드부터 반환된 Private배열</a></td>
+        <td><a href="http://localhost:8080/vulnerable/useafterfree">해제된 사용</a></td>
+        <td><a href="http://localhost:8080/vulnerable/publicprivatearray">Public메소드부터 반환된 Private배열</a></td>
         <td></td>
     </tr>
 
@@ -167,8 +167,8 @@
         <td><a href="http://localhost:8080/vulnerable/crypto">취약한 암호화 알고리즘 사용</a></td>
         <td></td>
         <td></td>
-        <td><a href="#">초기화되지 않는 변수사용</a></td>
-        <td><a href="#">Private배열에 Public 데이터할당</a></td>
+        <td><a href="http://localhost:8080/vulnerable/uninitialized">초기화되지 않는 변수사용</a></td>
+        <td><a href="http://localhost:8080/vulnerable/privatearray">Private배열에 Public 데이터할당</a></td>
         <td></td>
     </tr>
 

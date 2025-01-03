@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경쟁 조건과 사용 시점</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">경쟁 조건과 사용 시점</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 설명과 해결책 -->
+<div class="description-box">
+    <p><strong>설명:</strong> 경쟁 조건과 사용 시점(Time-of-Check to Time-of-Use, TOCTOU) 취약점은 여러 프로세스 또는 스레드가 동시에 자원에 접근할 때 발생할 수 있습니다. 이는 사용 시점과 확인 시점 사이에 자원이 변경될 가능성을 열어둡니다.</p>
+    <p><strong>대책:</strong> 동기화 매커니즘(Locks, Mutexes) 또는 임시 파일 생성 방식을 사용하여 자원의 상태를 안전하게 보호하세요.</p>
+</div>
+
+<!-- 샘플 코드 -->
+<div class="code-box">
+    <h2>샘플 코드</h2>
+    <h3>취약 코드:</h3>
+    <code>
+        import java.io.File;</p>
+
+        public class FileHandler {</p>
+        public void deleteFile(String filePath) {</p>
+        File file = new File(filePath);</p>
+
+        // 취약: 파일이 존재하는지 확인</p>
+        if (file.exists()) {</p>
+        // 문제 설명:</p>
+        // 파일 존재 확인 (`file.exists()`)과 실제 삭제 (`file.delete()`) 사이의 시간 간격에
+        // 다른 스레드 또는 프로세스가 파일의 내용을 변경하거나 파일 자체를 대체할 수 있음.</p>
+        // 예를 들어, 공격자가 삭제할 파일을 심볼릭 링크로 바꿔서 의도하지 않은 파일을 삭제하도록 유도 가능.</p>
+
+        file.delete(); // 취약: 파일이 삭제되었는지 여부도 확인하지 않음</p>
+        }</p>
+        }</p>
+        }</p>
+    </code>
+    <p><strong>설명:</strong>
+        이 코드는 파일이 존재하는지 확인하고 삭제하는 과정을 두 개의 별도 작업으로 처리합니다.
+        확인 시점(`file.exists()`)과 실제 삭제 시점(`file.delete()`) 사이에 경쟁 조건이 발생할 수 있으며, 공격자는
+        의도한 파일이 아닌 다른 파일을 삭제하도록 유도할 수 있습니다.
+    </p>
+
+    <h3>안전 코드:</h3>
+    <code>
+        import java.io.File;</p>
+        import java.nio.file.Files;</p>
+        import java.nio.file.Path;</p>
+
+        public class SecureFileHandler {</p>
+        public void deleteFileSecurely(String filePath) throws Exception {</p>
+        Path path = Path.of(filePath);</p>
+
+        // 안전: 파일 삭제 작업을 원자적으로 처리</p>
+        // Files.deleteIfExists() 메서드는 파일이 존재하는지 확인하고, 삭제를 하나의 작업으로 처리합니다.</p>
+        // 따라서, 경쟁 조건이 발생할 가능성을 제거합니다.</p>
+        Files.deleteIfExists(path);</p>
+        }</p>
+        }</p>
+    </code>
+    <p><strong>설명:</strong>
+        이 코드는 파일의 삭제 작업을 원자적(atomic)으로 처리합니다. `Files.deleteIfExists()`는 파일이 존재하는지 확인하고
+        삭제 작업을 하나의 연산으로 수행하므로, 확인 시점과 사용 시점(삭제) 사이에 발생할 수 있는 경쟁 조건을 방지합니다.
+    </p>
+</div>
+
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>

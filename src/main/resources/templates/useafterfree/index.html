@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>해제된 자원 사용</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .description-box, .code-box {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f4f6f8;
+        }
+
+        code {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<!-- 상단 회사 로고 -->
+<div class="header">
+    <a href="https://www.opentext.com/ko-kr" target="_blank">
+        <img src="/images/logo.png" alt="Company Logo">
+    </a>
+    <h2>오픈텍스트 - 인간의 잠재력을 끌어올리는 혁신</h2>
+</div>
+
+<!-- 제목과 돌아가기 버튼 -->
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <h1 style="margin: 0;">해제된 자원 사용</h1>
+    <a href="/index.html" style="text-decoration: none; margin-left: 15px;">
+        <button>돌아가기</button>
+    </a>
+</div>
+
+<!-- 설명과 해결책 -->
+<div class="description-box">
+    <p><strong>설명:</strong> 해제된 자원을 다시 사용하려고 하면 정의되지 않은 동작이 발생할 수 있으며, 메모리 손상,
+        시스템 충돌, 또는 악의적인 공격자가 이를 악용할 가능성이 있습니다.</p>
+    <p><strong>대책:</strong> 자원을 해제한 후에는 해당 자원을 명시적으로 null로 설정하거나, 다시 사용하지 못하도록 관리하세요.</p>
+</div>
+
+<!-- 샘플 코드 -->
+<div class="code-box">
+    <h2>샘플 코드</h2>
+    <h3>취약 코드:</h3>
+    <code>
+        import java.io.BufferedReader;</p>
+        import java.io.FileReader;</p>
+        import java.io.IOException;</p>
+
+        public void readFile(String filePath) throws IOException {</p>
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));</p>
+        reader.close(); // 자원 해제</p>
+
+        // 취약: 해제된 자원을 다시 사용</p>
+        String line = reader.readLine();</p>
+        System.out.println(line);</p>
+        }</p>
+    </code>
+    <p><strong>설명:</strong>
+        위 코드는 `reader.close()`로 자원을 해제한 후 다시 `reader.readLine()`을 호출하여 정의되지 않은 동작을 초래합니다.
+    </p>
+
+    <h3>안전 코드:</h3>
+    <code>
+        import java.io.BufferedReader;</p>
+        import java.io.FileReader;</p>
+        import java.io.IOException;</p>;
+
+        public void readFileSafely(String filePath) throws IOException {</p>
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {</p>
+        String line;</p>
+        while ((line = reader.readLine()) != null) {</p>
+        System.out.println(line);</p>
+        }</p>
+        } // try-with-resources가 종료되면 자원 자동 해제</p>
+        }</p>
+    </code>
+    <p><strong>설명:</strong>
+        이 코드는 `try-with-resources`를 사용하여 자원이 자동으로 해제되며, 해제된 자원이 다시 사용되지 않도록 보장합니다.
+    </p>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    저작권 © 2024 오픈 텍스트 주식회사. 모든 권리 보유.
+</footer>
+</body>
+</html>
