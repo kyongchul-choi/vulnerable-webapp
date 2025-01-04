@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import com.vulnapp.config.filter.FileAccessSecurityFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
 
 // import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 // import com.vulnapp.filter.CustomHtmlEscapeFilter;
@@ -20,9 +18,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-   @Autowired  // 필터가 Spring bean 으로 등록되어 있기에
-   private FileAccessSecurityFilter fileAccessSecurityFilter;   // 필터 클래스 선언
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,9 +33,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").permitAll()  // 모든 요청 허용
 
-                )
+                );
                 // xss필터 .addFilterBefore(new CustomHtmlEscapeFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(fileAccessSecurityFilter, BasicAuthenticationFilter.class);
+
 
         http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
