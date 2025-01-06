@@ -1,5 +1,21 @@
 
+
+
+# develop branch 생성후, 업데이트 코드 관리
+git checkout -b develop
 git add .
 git commit -m "Add Open Redirect vulnerability example"
+git push origin develop
+
+# merge 과정(develop --> main)
+- main branch로 이동
+git checkout main
+
+- develop branch의 내용을 main에 병합
+git merge develop
+
+- 병합된 내용을 원격 저장소에 push
 git push origin main
+
+
 
