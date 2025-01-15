@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,36 +122,80 @@
     </a>
 </div>
 
-
 <!-- 설명 -->
 <div class="description-box">
-    <p><strong>설명:</strong> 코드 삽입 공격은 애플리케이션에 임의의 코드를 삽입하여 의도된 동작을 변경하거나 악의적인 코드를 실행할 수 있는 취약점입니다.</p>
-    <p><strong>대책:</strong> 사용자 입력을 처리할 때 반드시 검증하고, 템플릿 엔진에서 제공하는 안전한 API를 사용하세요.</p>
+    <p><strong>설명:</strong> Template Injection은 웹 애플리케이션의 템플릿 엔진을 악용하여 서버 측 코드를 실행하거나 민감한 정보를 획득할 수 있는 취약점입니다.</p>
+    <p><strong>대책:</strong> 사용자 입력을 템플릿으로 처리하지 않고, 적절한 이스케이프 처리를 수행하세요.</p>
 </div>
 
 <!-- 본문 내용 -->
 <div class="container">
-    <!-- 입력 폼 -->
+    <!-- 입력 폼 - 취약한 버전 -->
     <div class="form-section">
-        <h2>입력 폼</h2>
-        <form action="/vulnerable/template-injection/process" method="get">
-            <label for="input">입력값:</label>
-            <input type="text" id="input" name="input" placeholder="코드를 입력하세요">
-            <button type="submit">제출</button>
+        <h2>취약한 템플릿 처리</h2>
+        <form action="/vulnerable/templateinjection/render" method="post">
+            <label for="unsafeMessage">메시지 입력:</label>
+            <input type="text" id="unsafeMessage" name="message" placeholder="Hello ${user}와 같은 형식으로 입력하세요">
+            <button type="submit">전송</button>
         </form>
+        <!-- 취약한 결과 표시 -->
+        <div class="result-section">
+            <h3>결과:</h3>
+            <div class="result" th:utext="${userMessage}">결과가 여기에 표시됩니다</div>
+        </div>
     </div>
 
-    <!-- 결과 -->
-    <div class="result-section">
-        <h2>결과</h2>
-        <div>
-            <h3>취약한 처리 (Unsafe)</h3>
-            <div class="result" th:text="${unsafeInput ?: '값이 없습니다'}"></div>
+    <!-- 입력 폼 - 안전한 버전 -->
+    <div class="form-section">
+        <h2>안전한 템플릿 처리</h2>
+        <form action="/vulnerable/templateinjection/render-safe" method="post">
+            <label for="safeMessage">메시지 입력:</label>
+            <input type="text" id="safeMessage" name="message" placeholder="안전하게 처리된 메시지를 입력하세요">
+            <button type="submit">전송</button>
+        </form>
+        <!-- 안전한 결과 표시 -->
+        <div class="result-section">
+            <h3>결과:</h3>
+            <div class="result" th:text="${safeMessage}">결과가 여기에 표시됩니다</div>
         </div>
-        <div>
-            <h3>안전한 처리 (Safe)</h3>
-            <div class="result" th:text="${safeInput ?: '값이 없습니다'}"></div>
-        </div>
+    </div>
+</div>
+
+<!-- 페이로드 예시 섹션 추가 -->
+<div class="container">
+    <div class="form-section">
+        <h2>테스트 페이로드 예시</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+            <tr style="background-color: #f4f6f8;">
+                <th style="padding: 10px; border: 1px solid #ddd;">구분</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">페이로드</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">설명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">기본 테스트</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${user}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">컨텍스트의 user 변수 출력</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">환경변수 조회</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${env}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">시스템 환경변수 정보 획득</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">버전 정보 확인</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${version}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">애플리케이션 및 시스템 버전 정보 획득</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">악의적인 스크립트 삽입</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">&ltscript&gtalert("xss")&lt/script&gt</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">악의적인 스크립트 실행</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
