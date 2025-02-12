@@ -26,19 +26,17 @@ public class ResponseSplittingController {
     }
 
     // 취약한 코드
-
     @GetMapping("/redirect")
-    public String redirectPage(@RequestParam String url) {
-        try {
-            String decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
-            if (decodedUrl.contains("\r") || decodedUrl.contains("\n")) {
-                throw new IllegalArgumentException("Invalid URL: CRLF characters are not allowed");
-            }
-            String sanitizedUrl = decodedUrl.replaceAll("[\r\n]", "");
-            return "redirect:" + sanitizedUrl;
-        } catch (IllegalArgumentException ex) {
-            System.err.println("Error occurred: " + ex.getMessage());
-            return "redirect:/index.html"; // 예외 발생 시 /index.html로 이동
-        }
+    public void redirectPage(HttpServletResponse response, @RequestParam String url) throws IOException {
+        // URL 디코딩 처리
+        String decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
+
+        // 직접 출력 스트림에 쓰기
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print("HTTP/1.1 302 Found\r\n");
+        out.print("Location: " + decodedUrl + "\r\n");
+        out.print("\r\n");
+        out.flush();
     }
 }
