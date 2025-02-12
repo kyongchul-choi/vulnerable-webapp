@@ -26,44 +26,19 @@ public class ResponseSplittingController {
     }
 
     // 취약한 코드
-    @GetMapping("/redirect")
-    public void redirectPage(HttpServletResponse response, @RequestParam String url) throws IOException {
-        // URL 디코딩 처리
-        String decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
 
-        // 직접 출력 스트림에 쓰기
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        out.print("HTTP/1.1 302 Found\r\n");
-        out.print("Location: " + decodedUrl + "\r\n");
-        out.print("\r\n");
-        out.flush();
-    }
-
-
-    /*
-    // spring 표준 redirect
     @GetMapping("/redirect")
     public String redirectPage(@RequestParam String url) {
-        // URL 유효성 검증
-        if (!isValidUrl(url)) {
-            return "redirect:/error";  // 기본 에러 페이지로 리다이렉션
-        }
-        return "redirect:" + url;
-    }
-    private boolean isValidUrl(String url) {
         try {
-            // URL 형식 검증
-            new URL(url);
-
-            // 허용된 도메인 검증
-            String domain = new URL(url).getHost();
-            List<String> allowedDomains = Arrays.asList("www.naver.com", "safe-site.com");
-            return allowedDomains.contains(domain);
-
-        } catch (MalformedURLException e) {
-            return false;
+            String decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
+            if (decodedUrl.contains("\r") || decodedUrl.contains("\n")) {
+                throw new IllegalArgumentException("Invalid URL: CRLF characters are not allowed");
+            }
+            String sanitizedUrl = decodedUrl.replaceAll("[\r\n]", "");
+            return "redirect:" + sanitizedUrl;
+        } catch (IllegalArgumentException ex) {
+            System.err.println("Error occurred: " + ex.getMessage());
+            return "redirect:/index.html"; // 예외 발생 시 /index.html로 이동
         }
     }
-    */
 }

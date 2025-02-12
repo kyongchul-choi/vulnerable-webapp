@@ -94,19 +94,22 @@
             // 검색 폼 처리
             const searchForm = document.getElementById('searchForm');
             searchForm.onsubmit = function (event) {
-                event.preventDefault(); // 기본 폼 제출 동작 중단
-                const searchInput = document.getElementById('searchInput').value; // 입력값 가져오기
-                const searchResults = document.getElementById('searchResults');
+            event.preventDefault(); // 기본 폼 제출 동작 중단
+            const searchInput = document.getElementById('searchInput').value; // 입력값 가져오기
+            const searchResults = document.getElementById('searchResults');
 
-                // 직접 스크립트 실행
+
+               // 직접 스크립트 실행
                 try {
-                    (new Function(searchInput))(); // 문자열 삽입
+                   (new Function(searchInput))(); // 문자열 삽입
+
                 } catch (error) {
-                    console.error("Script execution error:", error);
+                   console.error("Script execution error:", error);
                 }
 
+
                 // 검색 결과 DOM에 추가 (innerHTML 사용)
-                searchResults.innerHTML = `<p>검색 결과: ${searchInput}</p>`;
+               searchResults.innerHTML = `<p>검색 결과: ${searchInput}</p>`;
             };
         };
     </script>

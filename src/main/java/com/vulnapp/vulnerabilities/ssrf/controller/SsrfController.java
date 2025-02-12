@@ -1,3 +1,4 @@
+
 package com.vulnapp.vulnerabilities.ssrf.controller;
 
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,6 @@
 package com.vulnapp.filter;
 
 import org.apache.commons.text.StringEscapeUtils;
-
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;

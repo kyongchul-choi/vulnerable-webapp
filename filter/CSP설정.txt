@@ -1,3 +1,4 @@
+
 // src/main/java/com/vulnapp/config/SecurityConfig.java
 package com.vulnapp.config;
 
@@ -25,6 +26,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").permitAll()  // 모든 요청 허용
+                )
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives("script-src 'self'; style-src 'self'")
+                        )
+                        .frameOptions(frame -> frame.deny())
+
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .maxAgeInSeconds(31536000)
+                                .includeSubDomains(true)
+                        )
                 );
 
         // XSS 필터 추가
