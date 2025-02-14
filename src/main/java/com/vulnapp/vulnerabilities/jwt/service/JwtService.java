@@ -29,16 +29,18 @@ public class JwtService {
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(key, SignatureAlgorithm.HS256)
+                //.signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         log.info("Generated token: {}", token);
         return token;
     }
 
+
     public Claims parseToken(String token) {
         return Jwts.parser()
                 .parseClaimsJwt(token)
                 .getBody();
     }
+
 }
