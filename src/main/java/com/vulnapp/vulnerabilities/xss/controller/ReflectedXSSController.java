@@ -21,6 +21,7 @@ public class ReflectedXSSController {
         if (query == null || query.isBlank()) {
             query = "검색어가 없습니다.";
         }
+
         model.addAttribute("query", query);
         return "xss/search"; // resources/templates/xss/search.html 렌더링
     }

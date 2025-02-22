@@ -4,74 +4,78 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @Component
 public class FileAccessSecurityFilter implements Filter {
-
-    private static final String BASE_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/config";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String path = httpRequest.getParameter("path");
+        String uri = httpRequest.getRequestURI();
+        Map<String, String[]> params = httpRequest.getParameterMap();
 
-        if (path != null && httpRequest.getRequestURI().contains("/config/")) {
-            try {
-                if (!isSecurePath(path)) {
-                    sendForbiddenResponse(response, "접근이 거부되었습니다.");
-                    return;
-                }
-            } catch (SecurityException e) {
-                sendForbiddenResponse(response, e.getMessage());
-                return;
-            } catch (Exception e) {
-                sendBadRequestResponse(response, "잘못된 요청입니다.");
+        // 디버그 로그 추가 (필터가 실행되는지 확인)
+        System.out.println("FileAccessSecurityFilter 실행: " + uri);
+
+        try {
+            // 모든 요청에 대해 검사 (DispatcherType 조건 제거)
+            if (!isSecureInput(uri)) {
+                sendForbiddenResponse(response, "잘못된 접근 시도 감지 (URI): " + uri);
                 return;
             }
+            for (Map.Entry<String, String[]> entry : params.entrySet()) {
+                for (String value : entry.getValue()) {
+                    if (!isSecureInput(value)) {
+                        sendForbiddenResponse(response, "잘못된 접근 시도 감지 (파라미터: " + entry.getKey() + ")");
+                        return;
+                    }
+                }
+            }
+        } catch (SecurityException e) {
+            sendForbiddenResponse(response, e.getMessage());
+            return;
         }
 
         chain.doFilter(request, response);
     }
 
-    private boolean isSecurePath(String path) throws Exception {
-        // URL 디코딩
-        String decodedPath = URLDecoder.decode(path, "UTF-8");
+    /**
+     * 사용자가 정의한 공격 문자열 차단:
+     * - Null Byte, "..", "./", "\" 포함 여부 검사
+     */
+    private boolean isSecureInput(String input) throws SecurityException {
+        if (input == null) return true;
 
-        // 악의적인 패턴 필터링
-        if (decodedPath.indexOf(0) != -1 || // Null Byte 탐지
-                decodedPath.contains("..") ||  // 경로 이탈 방지
-                decodedPath.contains("/") ||   // 슬래시 차단
-                decodedPath.contains("\\")     // 백슬래시 차단
-        ) {
-            throw new SecurityException("Unauthorized access detected"); // 403 리턴
+        try {
+            String decodedInput = URLDecoder.decode(input, StandardCharsets.UTF_8.name());
+
+            if (decodedInput.indexOf(0) != -1 ||    // Null Byte 탐지
+                    decodedInput.contains("..") ||     // 경로 이탈 탐지
+                    decodedInput.contains("./") ||     // 상대 경로 탐지
+                    decodedInput.contains("\\")        // 백슬래시 차단
+            ) {
+                throw new SecurityException("Unauthorized access detected: " + decodedInput);
+            }
+            return true;
+        } catch (Exception e) {
+            throw new SecurityException("Invalid encoding detected: " + input);
         }
-
-        // baseDir 내부 요청 확인
-        File baseDir = new File(BASE_DIRECTORY);
-        File requestedFile = new File(baseDir, decodedPath);
-        String canonicalBaseDir = baseDir.getCanonicalPath();
-        String canonicalRequestedPath = requestedFile.getCanonicalPath();
-
-        if (!canonicalRequestedPath.startsWith(canonicalBaseDir)) {
-            throw new SecurityException("Unauthorized access");
-        }
-
-        return true;
     }
 
+    /**
+     * 403 Forbidden 응답 반환
+     */
     private void sendForbiddenResponse(ServletResponse response, String message) throws IOException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, message);
-    }
-
-    private void sendBadRequestResponse(ServletResponse response, String message) throws IOException {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, message);
+        httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        httpResponse.getWriter().write("{\"error\": \"" + message + "\"}");
+        httpResponse.getWriter().flush();
+        httpResponse.getWriter().close();
     }
 }

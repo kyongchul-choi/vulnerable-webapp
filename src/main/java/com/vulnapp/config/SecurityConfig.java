@@ -6,10 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-
+import jakarta.servlet.http.HttpServletResponse;
 
 // import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 // import com.vulnapp.filter.CustomHtmlEscapeFilter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
 
 /**
  * Spring Security 설정 클래스
@@ -19,9 +23,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
                 .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").permitAll()  // 모든 요청 허용

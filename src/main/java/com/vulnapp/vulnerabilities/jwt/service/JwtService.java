@@ -36,7 +36,6 @@ public class JwtService {
         return token;
     }
 
-
     public Claims parseToken(String token) {
         return Jwts.parser()
                 .parseClaimsJwt(token)

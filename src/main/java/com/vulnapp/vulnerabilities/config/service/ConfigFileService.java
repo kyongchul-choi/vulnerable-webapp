@@ -40,6 +40,7 @@ public class ConfigFileService {
             }
 
             File file = new File(fullPath);
+
             if (file.exists() && file.canRead()) {
                 String content = new String(Files.readAllBytes(file.toPath()));
                 ConfigFileDTO dto = new ConfigFileDTO();
@@ -106,4 +107,5 @@ public class ConfigFileService {
         return dto;
     }
 }
+
 
