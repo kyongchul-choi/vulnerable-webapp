@@ -12,6 +12,8 @@ public class OpenRedirectController {
     public String redirectPage() {
         return "openredirect/index"; // index.html 경로
     }
+
+
     @GetMapping("/vulnerable/openredirect/redirect")
     public RedirectView handleRedirect(@RequestParam("url") String url) {
         // Open Redirect를 테스트하기 위해 전달받은 URL로 리다이렉트

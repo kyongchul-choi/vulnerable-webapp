@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.Arrays;
@@ -28,6 +29,8 @@ public class ResponseSplittingController {
     // 취약한 코드
     @GetMapping("/redirect")
     public void redirectPage(HttpServletResponse response, @RequestParam String url) throws IOException {
+
+
         // URL 디코딩 처리
         String decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
 
@@ -38,5 +41,8 @@ public class ResponseSplittingController {
         out.print("Location: " + decodedUrl + "\r\n");
         out.print("\r\n");
         out.flush();
+
+
+
     }
 }
