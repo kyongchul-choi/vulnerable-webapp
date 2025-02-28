@@ -21,11 +21,12 @@ public class InputValidationService {
     // 취약한 버전: 파라미터로 전달된 userId와 role을 검증 없이 사용
     @Transactional
     public void unsafeUpdateBoard(Long boardId, BoardRequest request) {
+
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
 
         // 취약점: 클라이언트가 전송한 role 파라미터를 그대로 사용
-        if ("ADMIN".equals(request.getRole())) {
+         if ("ADMIN".equals(request.getRole())) {
             // 관리자 권한으로 수정
             updateBoardContent(board, request);
         } else {
