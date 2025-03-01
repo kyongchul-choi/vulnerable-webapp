@@ -17,7 +17,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleResponseStatusException(ResponseStatusException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-
         return new ResponseEntity<>(body, ex.getStatusCode());
     }
 

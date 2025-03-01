@@ -100,17 +100,17 @@
 
 
                // 직접 스크립트 실행
-            //    try {
-            //       (new Function(searchInput))(); // 문자열 삽입
+                try {
+                   (new Function(searchInput))(); // 문자열 삽입
 
-            //    } catch (error) {
-             //      console.error("Script execution error:", error);
-            //    }
+               } catch (error) {
+                  console.error("Script execution error:", error);
+               }
 
 
                 // 검색 결과 DOM에 추가 (innerHTML 사용)
-            //   searchResults.innerHTML = `<p>검색 결과: ${searchInput}</p>`;
-               searchResults.textContent = `<p>검색 결과: ${searchInput}</p>`;
+               searchResults.innerHTML = `<p>검색 결과: ${searchInput}</p>`;
+
 
             };
         };

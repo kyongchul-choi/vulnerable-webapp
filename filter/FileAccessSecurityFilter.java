@@ -24,25 +24,26 @@ public class FileAccessSecurityFilter implements Filter {
         System.out.println("FileAccessSecurityFilter 실행: " + uri);
 
         try {
-            // 모든 요청에 대해 검사 (DispatcherType 조건 제거)
+            // URI 검사
             if (!isSecureInput(uri)) {
-                sendForbiddenResponse(response, "잘못된 접근 시도 감지 (URI): " + uri);
+                sendForbiddenResponse(response, "잘못된 접근 시도 감지 (URI)");
                 return;
             }
+
+            // 파라미터 검사
             for (Map.Entry<String, String[]> entry : params.entrySet()) {
                 for (String value : entry.getValue()) {
                     if (!isSecureInput(value)) {
-                        sendForbiddenResponse(response, "잘못된 접근 시도 감지 (파라미터: " + entry.getKey() + ")");
+                        sendForbiddenResponse(response, "잘못된 접근 시도 감지 (파라미터)");
                         return;
                     }
                 }
             }
+
+            chain.doFilter(request, response);
         } catch (SecurityException e) {
             sendForbiddenResponse(response, e.getMessage());
-            return;
         }
-
-        chain.doFilter(request, response);
     }
 
     /**
@@ -52,20 +53,33 @@ public class FileAccessSecurityFilter implements Filter {
     private boolean isSecureInput(String input) throws SecurityException {
         if (input == null) return true;
 
-        try {
-            String decodedInput = URLDecoder.decode(input, StandardCharsets.UTF_8.name());
+        String decodedInput;
 
-            if (decodedInput.indexOf(0) != -1 ||    // Null Byte 탐지
-                    decodedInput.contains("..") ||     // 경로 이탈 탐지
-                    decodedInput.contains("./") ||     // 상대 경로 탐지
-                    decodedInput.contains("\\")        // 백슬래시 차단
-            ) {
-                throw new SecurityException("Unauthorized access detected: " + decodedInput);
-            }
-            return true;
+        // 디코딩 시도
+        try {
+            decodedInput = URLDecoder.decode(input, StandardCharsets.UTF_8.name());
         } catch (Exception e) {
-            throw new SecurityException("Invalid encoding detected: " + input);
+            throw new SecurityException("잘못된 인코딩 감지");
         }
+
+        // 보안 검사 (디코딩 성공 후)
+        if (decodedInput.indexOf(0) != -1) {  // Null Byte 탐지
+            throw new SecurityException("허용되지 않는 문자 감지: Null Byte");
+        }
+
+        if (decodedInput.contains("..")) {    // 경로 이탈 탐지
+            throw new SecurityException("허용되지 않는 경로 이탈 시도 감지");
+        }
+
+        if (decodedInput.contains("./")) {    // 상대 경로 탐지
+            throw new SecurityException("허용되지 않는 상대 경로 감지");
+        }
+
+        if (decodedInput.contains("\\")) {    // 백슬래시 차단
+            throw new SecurityException("허용되지 않는 문자 감지: 백슬래시");
+        }
+
+        return true;
     }
 
     /**
@@ -74,8 +88,8 @@ public class FileAccessSecurityFilter implements Filter {
     private void sendForbiddenResponse(ServletResponse response, String message) throws IOException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        httpResponse.setContentType("application/json;charset=UTF-8");
         httpResponse.getWriter().write("{\"error\": \"" + message + "\"}");
         httpResponse.getWriter().flush();
-        httpResponse.getWriter().close();
     }
 }

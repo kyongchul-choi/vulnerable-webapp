@@ -7,14 +7,11 @@ import com.vulnapp.vulnerabilities.config.repository.ConfigFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.io.IOException;
-import java.io.InputStream;
-import org.springframework.core.io.ClassPathResource;
+
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +54,6 @@ public class ConfigFileService {
             throw new RuntimeException("파일 접근 오류: " + e.getMessage());
         }
     }
-
     // 2. 백업 파일 접근 취약점
     @Transactional(readOnly = true)
     public List<ConfigFileDTO> unsafeGetBackupFiles(String date) {
