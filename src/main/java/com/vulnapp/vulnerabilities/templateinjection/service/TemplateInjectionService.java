@@ -41,11 +41,18 @@ public class TemplateInjectionService {
             context.setVariable("userInput", input);
 
             String template;
-            // 입력값이 ${ 로 시작하면 Thymeleaf 표현식으로 처리
             if (input.trim().startsWith("${")) {
-                template = "<div th:remove='tag' th:text='" + input + "'>Default</div>";
+                // ${...} 형태라면 표현식에서 ...부분만 추출
+                String expressionContent = input.substring(2, input.length());
+                if (expressionContent.endsWith("}")) {
+                    expressionContent = expressionContent.substring(0, expressionContent.length() - 1);
+                    template = "<div th:remove='tag' th:utext='${" + expressionContent + "}'>Default</div>";
+                } else {
+                    // 형식이 맞지 않으면 그대로 출력
+                    template = "<div th:remove='tag' th:utext='${userInput}'>Default</div>";
+                }
             } else {
-                // 일반 HTML/스크립트는 utext로 처리
+                // 일반 텍스트는 그대로 처리
                 template = "<div th:remove='tag' th:utext='${userInput}'>Default</div>";
             }
 

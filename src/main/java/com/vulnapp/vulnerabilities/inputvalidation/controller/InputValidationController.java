@@ -30,9 +30,8 @@ public class InputValidationController {
     public ResponseEntity<String> unsafeUpdateBoard(
             @PathVariable Long id,
             @RequestBody BoardRequest request) {
-
         try {
-           inputValidationService.unsafeUpdateBoard(id, request);
+            inputValidationService.unsafeUpdateBoard(id, request);
             return ResponseEntity.ok("게시글이 수정되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

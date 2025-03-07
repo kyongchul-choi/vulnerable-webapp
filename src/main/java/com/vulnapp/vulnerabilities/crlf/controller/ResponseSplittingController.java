@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.Arrays;
@@ -35,12 +36,15 @@ public class ResponseSplittingController {
         String decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
 
         // 직접 출력 스트림에 쓰기
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         out.print("HTTP/1.1 302 Found\r\n");
         out.print("Location: " + decodedUrl + "\r\n");
         out.print("\r\n");
         out.flush();
+
+
 
 
 

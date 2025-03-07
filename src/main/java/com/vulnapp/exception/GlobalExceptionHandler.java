@@ -17,6 +17,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleResponseStatusException(ResponseStatusException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
+        body.put("status", ex.getStatusCode().value());
+        body.put("error", ex.getReason()); // `path` 정보 제거하여 보안 강화
+
         return new ResponseEntity<>(body, ex.getStatusCode());
     }
 

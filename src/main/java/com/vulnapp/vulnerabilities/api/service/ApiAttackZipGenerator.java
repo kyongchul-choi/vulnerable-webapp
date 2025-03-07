@@ -21,11 +21,11 @@ public class ApiAttackZipGenerator {
                 String entryPath;
                 if (os.contains("win")) {
                     // Windows 환경 - uploads 디렉토리에서 한 단계 위로
-                    entryPath = "..\\api_attack\\api_attack.txt";
+                    entryPath = "..\\etc\\password";
                     System.out.println("Windows용 ZIP 경로 생성: " + entryPath);
                 } else {
                     // Mac/Linux 환경 - uploads 디렉토리에서 한 단계 위로
-                    entryPath = "../api_attack/api_attack.txt";
+                    entryPath = "../etc/password";
                     System.out.println("Mac/Linux용 ZIP 경로 생성: " + entryPath);
                 }
 

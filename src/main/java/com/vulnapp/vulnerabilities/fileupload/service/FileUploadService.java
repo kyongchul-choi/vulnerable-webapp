@@ -24,6 +24,7 @@ public class FileUploadService {
             if (fileName == null) {
                 throw new InvalidFileException("파일명이 없습니다.");
             }
+
             fileName = fileName.replaceAll("[^a-zA-Z0-9._-]", "_");
 
             // 업로드 디렉토리 확인 및 생성

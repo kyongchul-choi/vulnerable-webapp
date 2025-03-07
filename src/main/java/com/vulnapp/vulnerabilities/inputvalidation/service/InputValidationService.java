@@ -29,6 +29,7 @@ public class InputValidationService {
          if ("ADMIN".equals(request.getRole())) {
             // 관리자 권한으로 수정
             updateBoardContent(board, request);
+
         } else {
             // 취약점: 클라이언트가 전송한 userId를 검증 없이 사용
             if (board.getUser().getId().equals(request.getUserId())) {
