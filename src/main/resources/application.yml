@@ -1,5 +1,13 @@
-spring:
+server:
+  tomcat:
+    allow-backslash: false
+    allow-encoded-slash: false
+  servlet:
+    context-parameters:
+      org.apache.catalina.connector.CoyoteAdapter.ALLOW_BACKSLASH: false
+      org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH: false
 
+spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -30,12 +38,17 @@ spring:
       enabled: true
       max-file-size: 10MB
       max-request-size: 10MB
-  resources:
-    static-locations: classpath:/static/,classpath:/public/,file:uploads/
+  mvc:
+    pathmatch:
+      use-suffix-pattern: false
+    static-path-pattern: /static/**
+  web:
+    resources:
+      add-mappings: true
+      static-locations: classpath:/static/,classpath:/public/,file:uploads/
 
 fileupload:
   directory: ${user.dir}/uploads
-
 
 logging:
   level:
@@ -46,4 +59,3 @@ logging:
     org.springframework.web: DEBUG
     org.springframework.web.servlet.resource: DEBUG
     org.thymeleaf: DEBUG
-
