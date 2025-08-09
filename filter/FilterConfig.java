@@ -16,7 +16,7 @@ public class FilterConfig {
         registration.setFilter(filter);
         registration.addUrlPatterns("/*");
         registration.setDispatcherTypes(EnumSet.allOf(DispatcherType.class)); // 모든 DispatcherType 적용
-        registration.setOrder(-100); // 우선 순위 지정 (낮은 숫자가 높은 우선순위)
+        registration.setOrder(1); // 우선 순위 지정 (낮은 숫자가 높은 우선순위)
         return registration;
     }
 }
